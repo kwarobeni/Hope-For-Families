@@ -55,3 +55,7 @@ jobs:
           local-dir: admin/dist/
           server-dir: ./admin/
           state-name: .ftp-deploy-sync-state-admin.json
+          # A previous run left an incomplete sync (some files uploaded, others
+          # missing). dangerous-clean-slate forces a full wipe-and-reupload of
+          # this isolated subfolder so the server state matches the build exactly.
+          dangerous-clean-slate: true
