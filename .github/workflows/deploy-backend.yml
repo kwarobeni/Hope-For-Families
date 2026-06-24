@@ -1,0 +1,39 @@
+name: Deploy backend
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'backend/**'
+      - '.github/workflows/deploy-backend.yml'
+  workflow_dispatch:
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      # Uploads backend source (no node_modules, no .env, uploads/ left alone on the
+      # server). Hostinger's Business plan Node.js app doesn't expose a remote way to
+      # run `npm install` or restart the process over plain FTP, so after this step
+      # finishes you still need to, in hPanel -> Advanced -> Node.js:
+      #   1. Click "Run NPM Install" on the app
+      #   2. Click "Restart"
+      # If your plan has SSH access, see backend/HOSTINGER_DEPLOY.md for a one-line
+      # SSH command to automate both from this workflow instead.
+      - name: Upload backend source to Hostinger
+        uses: SamKirkland/FTP-Deploy-Action@v4.3.5
+        with:
+          server: ${{ secrets.HOSTINGER_FTP_SERVER }}
+          username: ${{ secrets.HOSTINGER_FTP_USERNAME }}
+          password: ${{ secrets.HOSTINGER_FTP_PASSWORD }}
+          protocol: ftps
+          local-dir: backend/
+          server-dir: ./backend/
+          state-name: .ftp-deploy-sync-state-backend.json
+          exclude: |
+            **/node_modules/**
+            **/.env
+            **/.env.*
+            **/uploads/**

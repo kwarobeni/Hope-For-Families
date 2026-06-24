@@ -3,6 +3,29 @@
 Everything runs on Hostinger Business hosting: static frontend + admin in `public_html`, the Express API as a Node.js
 app (one of your 5 available slots), and MySQL from your existing hosting plan.
 
+## Do you need to connect GitHub to Hostinger?
+
+**No** — Hostinger's own hPanel Git feature only runs `git pull`; it can't run `npm install`/`npm run build`, which
+the Astro frontend and Vite admin both need to produce the `dist/` folder that actually gets served. So plain
+GitHub↔Hostinger Git integration would leave you serving raw source files, not a working site.
+
+Two real options, both already set up in this repo:
+
+1. **Manual** — build locally, upload via File Manager/SFTP. See sections 2–4 below. No GitHub required at all.
+2. **Automated via GitHub Actions** — push to `main` on GitHub, and `.github/workflows/deploy-*.yml` build each app
+   and push the output to Hostinger over FTPS. This *does* use GitHub, just not Hostinger's native Git integration.
+   To enable it:
+   - In hPanel → Files → FTP Accounts, create (or note) an FTP account scoped to your hosting plan.
+   - In your GitHub repo → Settings → Secrets and variables → Actions, add:
+     - `HOSTINGER_FTP_SERVER` — usually your domain or the IP shown in hPanel's FTP details
+     - `HOSTINGER_FTP_USERNAME`, `HOSTINGER_FTP_PASSWORD`
+     - `PUBLIC_API_URL` — e.g. `https://www.hopeforfamilies.org.uk/api` (or your API subdomain)
+     - `PUBLIC_PAYPAL_CLIENT_ID`
+   - Push to `main`. Each workflow only runs when its app's folder changes (`frontend/**`, `admin/**`, `backend/**`).
+   - The backend workflow uploads source over FTP but **cannot** run `npm install` or restart the Node app remotely
+     on shared hosting without SSH — after it finishes, click "Run NPM Install" then "Restart" on the Node.js app in
+     hPanel. If your plan includes SSH, this can be fully automated; ask and we'll wire it up.
+
 ## 1. Create the MySQL database
 
 In hPanel → Databases → MySQL Databases:
