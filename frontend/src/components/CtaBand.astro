@@ -1,0 +1,48 @@
+---
+import WaveDivider from './WaveDivider.astro';
+
+interface Props {
+  title: string;
+  description?: string;
+  topFill?: string;
+  primaryHref?: string;
+  primaryLabel?: string;
+  secondaryHref?: string;
+  secondaryLabel?: string;
+}
+const {
+  title,
+  description,
+  topFill = '#F0F9F3',
+  primaryHref = '/donate',
+  primaryLabel = 'Donate now',
+  secondaryHref = '/get-involved',
+  secondaryLabel = 'Become a volunteer',
+} = Astro.props;
+---
+
+<section class="relative overflow-hidden bg-[linear-gradient(140deg,#3FAE68,#1F7A4D)]">
+  <WaveDivider fill={topFill} flip />
+  <div class="relative mx-auto max-w-[1240px] px-6 pb-20 pt-2 text-center md:px-10">
+    <div class="pointer-events-none absolute right-10 top-0 h-[200px] w-[200px] rounded-full bg-[radial-gradient(circle,rgba(244,185,66,0.26),transparent_68%)] md:right-16"></div>
+    <h2 class="relative font-display text-3xl font-extrabold leading-[1.1] tracking-tight text-white md:text-[44px]">{title}</h2>
+    {description && (
+      <p class="relative mx-auto mt-3 max-w-[520px] text-lg leading-relaxed text-white/90">{description}</p>
+    )}
+    <div class="relative mt-7 flex flex-wrap items-center justify-center gap-3.5">
+      <a
+        href={primaryHref}
+        class="btn-lift inline-flex items-center gap-2 rounded-full bg-gold px-7 py-4 font-display text-base font-bold text-forest-900"
+      >
+        {primaryLabel}
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#14543A" stroke-width="2.6"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+      </a>
+      <a
+        href={secondaryHref}
+        class="btn-lift inline-flex items-center gap-2 rounded-full border-[1.5px] border-white/55 bg-white/15 px-6 py-3.5 font-display text-base font-bold text-white"
+      >
+        {secondaryLabel}
+      </a>
+    </div>
+  </div>
+</section>

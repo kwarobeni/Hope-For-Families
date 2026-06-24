@@ -1,0 +1,82 @@
+@import "tailwindcss";
+
+@theme {
+  --font-display: "Poppins", sans-serif;
+  --font-sans: "DM Sans", sans-serif;
+  --font-script: "Dancing Script", cursive;
+
+  --color-emerald: #3fae68;
+  --color-emerald-deep: #2e8b57;
+  --color-forest-700: #1f7a4d;
+  --color-forest-800: #176b43;
+  --color-forest-900: #14543a;
+  --color-hope-blue: #1f5aa6;
+  --color-gold: #f4b942;
+  --color-gold-deep: #d99b1e;
+  --color-coral: #e0796b;
+  --color-cream: #fff9f0;
+  --color-mint: #f0f9f3;
+  --color-mint-tint: #e6f5ec;
+  --color-blue-tint: #eef3fb;
+  --color-gold-tint: #fef6e7;
+  --color-body: #5d6b62;
+  --color-muted: #7a8c80;
+  --color-border-soft: #eef3ef;
+  --color-border-warm: #e6dcc8;
+}
+
+@layer base {
+  html {
+    scroll-behavior: smooth;
+  }
+  body {
+    font-family: var(--font-sans);
+    color: var(--color-body);
+  }
+  h1, h2, h3, h4 {
+    font-family: var(--font-display);
+  }
+}
+
+@layer components {
+  .navlink {
+    position: relative;
+  }
+  .navlink::after {
+    content: "";
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: -6px;
+    height: 2px;
+    background: var(--color-gold);
+    transform: scaleX(0);
+    transform-origin: left;
+    transition: transform 0.25s ease;
+  }
+  .navlink:hover::after,
+  .navlink.active::after {
+    transform: scaleX(1);
+  }
+  .btn-lift {
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+  }
+  .btn-lift:hover {
+    transform: translateY(-2px);
+  }
+  .card-lift {
+    transition: transform 0.25s ease, box-shadow 0.25s ease;
+  }
+  .card-lift:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 26px 50px -28px rgba(20, 84, 58, 0.5);
+  }
+  .field-input {
+    transition: border-color 0.2s ease, box-shadow 0.2s ease;
+  }
+  .field-input:focus {
+    outline: none;
+    border-color: var(--color-emerald-deep);
+    box-shadow: 0 0 0 3px rgba(46, 139, 87, 0.15);
+  }
+}

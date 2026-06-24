@@ -1,0 +1,15 @@
+---
+interface Props {
+  fill?: string;
+  flip?: boolean;
+}
+const { fill = '#fff', flip = false } = Astro.props;
+---
+
+<svg
+  viewBox="0 0 1280 70"
+  preserveAspectRatio="none"
+  class:list={['block h-[60px] w-full md:h-[70px]', { 'rotate-180': flip }]}
+>
+  <path d="M0,38 C260,72 520,6 780,28 C980,45 1140,58 1280,34 L1280,70 L0,70 Z" fill={fill} />
+</svg>

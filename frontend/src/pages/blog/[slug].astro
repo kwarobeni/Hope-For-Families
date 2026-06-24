@@ -1,0 +1,41 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import WaveDivider from '../../components/WaveDivider.astro';
+import { api } from '../../lib/api';
+
+export async function getStaticPaths() {
+  const posts = await api.posts();
+  return posts.map((post) => ({ params: { slug: post.slug } }));
+}
+
+const { slug } = Astro.params;
+const post = await api.postBySlug(slug as string);
+
+if (!post) {
+  return Astro.redirect('/blog');
+}
+---
+
+<Layout title={post.title} description={post.excerpt} image={post.featured_image || undefined}>
+  <section class="relative overflow-hidden bg-[linear-gradient(155deg,#3FAE68_0%,#1F7A4D_70%,#176B43_100%)]">
+    <div class="pointer-events-none absolute -right-28 -top-20 h-[340px] w-[340px] rounded-full bg-[radial-gradient(circle,rgba(244,185,66,0.32),transparent_68%)]"></div>
+    <div class="relative mx-auto max-w-[1240px] px-6 py-10 md:px-10 md:pb-24">
+      <a href="/blog" class="navlink inline-flex items-center gap-1.5 font-display text-sm font-semibold text-white/85">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>
+        All Posts
+      </a>
+      <h1 class="mt-4 max-w-[760px] font-display text-4xl font-extrabold leading-[1.08] text-white md:text-[48px]">{post.title}</h1>
+      <p class="mt-3 text-sm font-medium text-white/80">
+        {new Date(post.published_at).toLocaleDateString('en-GB', { day: 'numeric', month: 'long', year: 'numeric' })}
+      </p>
+    </div>
+    <WaveDivider fill="#fff" />
+  </section>
+
+  <article class="bg-white px-6 pb-21 pt-10 md:px-10">
+    <div class="mx-auto max-w-[760px]">
+      {post.featured_image && <img src={post.featured_image} alt={post.title} class="mb-8 w-full rounded-2xl" />}
+      <div class="prose prose-slate max-w-none" set:html={post.content} />
+    </div>
+  </article>
+</Layout>

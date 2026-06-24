@@ -1,0 +1,128 @@
+---
+import Layout from '../layouts/Layout.astro';
+import PageHero from '../components/PageHero.astro';
+import CtaBand from '../components/CtaBand.astro';
+
+const values = [
+  ['Inclusion', 'We create welcoming spaces where everyone feels valued, respected, and heard regardless of background or circumstance.'],
+  ['Empowerment', 'We inspire individuals, young people, and families to build confidence, develop their potential, and create positive futures.'],
+  ['Community', 'We believe strong communities are built through connection, collaboration, support, and unity.'],
+  ['Equality & Diversity', 'We celebrate cultural diversity and are committed to breaking barriers and promoting equal opportunities for all.'],
+  ['Compassion', 'We serve with kindness, understanding, and a genuine commitment to improving lives.'],
+  ['Integrity', 'We act with honesty, transparency, accountability, and professionalism in everything we do.'],
+  ['Growth & Opportunity', 'We are committed to creating meaningful opportunities that promote wellbeing, creativity, development, and lasting positive change.'],
+];
+---
+
+<Layout title="About Us" description="Learn about Hope For Families' story, mission, vision, and values — a community-led charity supporting African and ethnic minority families in Dundee, Scotland.">
+  <PageHero
+    eyebrow="Our story"
+    title="Built by families, for families."
+    description="Hope For Families began with a simple belief: no family should face a new country alone."
+  />
+
+  <!-- STORY -->
+  <section class="bg-white px-6 pb-21 pt-10 md:px-10">
+    <div class="mx-auto grid max-w-[1240px] items-center gap-14 md:grid-cols-2">
+      <div class="relative hidden h-[420px] md:block">
+        <div class="absolute left-0 top-0 h-[320px] w-[270px] overflow-hidden rounded-[150px_150px_140px_140px] bg-[linear-gradient(160deg,#3FAE68,#1F5AA6)] shadow-[0_24px_50px_-22px_rgba(0,0,0,0.3)]">
+          <div class="flex h-full items-center justify-center">
+            <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="1" opacity="0.5"><rect x="3" y="4" width="18" height="16" rx="2"/><circle cx="8.5" cy="9.5" r="1.8"/><path d="M21 16l-5-5L4 20"/></svg>
+          </div>
+        </div>
+        <div class="absolute bottom-0 right-3 flex h-[190px] w-[190px] items-center justify-center overflow-hidden rounded-full bg-[linear-gradient(160deg,#F4B942,#e0796b)] shadow-[0_20px_44px_-18px_rgba(0,0,0,0.28)]">
+          <svg width="34" height="34" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="1.2" opacity="0.6"><rect x="3" y="4" width="18" height="16" rx="2"/><circle cx="8.5" cy="9.5" r="1.8"/><path d="M21 16l-5-5L4 20"/></svg>
+        </div>
+      </div>
+      <div>
+        <span class="mb-4 inline-flex items-center gap-2 font-display text-xs font-semibold uppercase tracking-[0.2em] text-emerald-deep">
+          <span class="h-0.5 w-6 bg-emerald-deep"></span>How we began
+        </span>
+        <h2 class="mb-4.5 font-display text-3xl font-bold leading-[1.16] tracking-tight text-forest-900 md:text-[34px]">
+          From isolation to a thriving community.
+        </h2>
+        <p class="mb-4 leading-[1.75] text-body">
+          Hope For Families was created from a passion to support, uplift, and empower families and individuals
+          from African and ethnic minority communities who often face social isolation, barriers to opportunities,
+          cultural disconnection, and limited access to support systems.
+        </p>
+        <p class="mb-4 leading-[1.75] text-body">
+          What began as a vision to create a safe and welcoming space for families has grown into a thriving
+          community organisation delivering impactful programs that promote wellbeing, personal development,
+          inclusion, creativity, and community cohesion.
+        </p>
+        <p class="leading-[1.75] text-body">
+          As a registered Scottish charity (SC053715), every pound and every hour goes directly into supporting
+          African and ethnic-minority families to belong, grow and thrive.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- MISSION / VISION -->
+  <section class="bg-mint px-6 py-21 md:px-10">
+    <div class="mx-auto grid max-w-[1240px] gap-6 md:grid-cols-2">
+      <div class="rounded-[24px] bg-white p-9 shadow-[0_18px_44px_-30px_rgba(20,84,58,0.5)] md:p-11">
+        <div class="mb-5 flex h-14 w-14 items-center justify-center rounded-full bg-mint-tint">
+          <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#2E8B57" stroke-width="1.7"><circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="4"/><circle cx="12" cy="12" r="0.6" fill="#2E8B57"/></svg>
+        </div>
+        <h3 class="mb-3 font-display text-2xl font-bold leading-tight text-forest-900">Our mission</h3>
+        <p class="leading-[1.7] text-body">
+          To empower young people, families, and individuals by tackling isolation, strengthening communities, and
+          bridging the gap between African and ethnic minority communities and the wider Scottish community through
+          inclusive support, opportunities, and meaningful community engagement.
+        </p>
+      </div>
+      <div class="rounded-[24px] bg-white p-9 shadow-[0_18px_44px_-30px_rgba(20,84,58,0.5)] md:p-11">
+        <div class="mb-5 flex h-14 w-14 items-center justify-center rounded-full bg-gold-tint">
+          <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#d99b1e" stroke-width="1.7"><path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7-10-7-10-7z"/><circle cx="12" cy="12" r="3"/></svg>
+        </div>
+        <h3 class="mb-3 font-display text-2xl font-bold leading-tight text-forest-900">Our vision</h3>
+        <p class="leading-[1.7] text-body">
+          To build a united, inclusive, and empowered society where African and ethnic minority communities thrive,
+          barriers are broken, and every individual and family has the opportunity, support, and confidence to reach
+          their full potential.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- VALUES -->
+  <section class="bg-white px-6 py-21 md:px-10">
+    <div class="mx-auto max-w-[1240px]">
+      <div class="mx-auto mb-11 max-w-[620px] text-center">
+        <span class="mb-3.5 inline-flex items-center gap-2 font-display text-xs font-semibold uppercase tracking-[0.2em] text-gold-deep">
+          <span class="h-0.5 w-6 bg-gold"></span>What we stand for<span class="h-0.5 w-6 bg-gold"></span>
+        </span>
+        <h2 class="font-display text-3xl font-bold tracking-tight text-forest-900 md:text-[38px]">The values that hold us together.</h2>
+      </div>
+      <div class="grid grid-cols-2 gap-4.5 md:grid-cols-4">
+        {values.map(([title, body]) => (
+          <div class="rounded-[22px] bg-mint px-5 py-6 text-center">
+            <div class="mx-auto mb-3.5 flex h-14 w-14 items-center justify-center rounded-full bg-white shadow-[0_8px_18px_-10px_rgba(20,84,58,0.4)]">
+              <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#2E8B57" stroke-width="1.7"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54z"/></svg>
+            </div>
+            <div class="mb-1.5 font-display text-base font-bold text-forest-900">{title}</div>
+            <p class="text-[13px] leading-relaxed text-muted">{body}</p>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- TEAM -->
+  <section class="bg-mint px-6 py-21 md:px-10">
+    <div class="mx-auto max-w-[1240px] text-center">
+      <span class="mb-3.5 inline-flex items-center gap-2 font-display text-xs font-semibold uppercase tracking-[0.2em] text-emerald-deep">
+        <span class="h-0.5 w-6 bg-emerald-deep"></span>The people behind hope
+      </span>
+      <h2 class="mb-5 font-display text-3xl font-bold tracking-tight text-forest-900 md:text-[38px]">A small team with a big heart.</h2>
+      <p class="mx-auto max-w-[620px] leading-[1.75] text-body">
+        Our dedicated team of staff and volunteers work together to deliver every program with care,
+        professionalism, and a genuine commitment to the families and communities we serve.
+      </p>
+    </div>
+  </section>
+
+  <CtaBand title="Be part of someone's brighter future." description="Whether you give, volunteer or partner with us — every act of hope helps a family belong." />
+</Layout>

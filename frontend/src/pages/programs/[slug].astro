@@ -1,0 +1,58 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import WaveDivider from '../../components/WaveDivider.astro';
+import CtaBand from '../../components/CtaBand.astro';
+import { api } from '../../lib/api';
+
+export async function getStaticPaths() {
+  const initiatives = await api.initiatives();
+  return initiatives.map((initiative) => ({ params: { slug: initiative.slug } }));
+}
+
+const { slug } = Astro.params;
+const initiative = await api.initiativeBySlug(slug as string);
+
+if (!initiative) {
+  return Astro.redirect('/programs');
+}
+---
+
+<Layout title={initiative.title} description={initiative.description}>
+  <section class="relative overflow-hidden bg-[linear-gradient(155deg,#3FAE68_0%,#1F7A4D_70%,#176B43_100%)]">
+    <div class="pointer-events-none absolute -right-28 -top-20 h-[340px] w-[340px] rounded-full bg-[radial-gradient(circle,rgba(244,185,66,0.32),transparent_68%)]"></div>
+    <div class="relative mx-auto max-w-[1240px] px-6 py-10 md:px-10 md:pb-24">
+      <a href="/programs" class="navlink inline-flex items-center gap-1.5 font-display text-sm font-semibold text-white/85">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>
+        All Programs
+      </a>
+      <h1 class="mt-4 max-w-[760px] font-display text-4xl font-extrabold leading-[1.08] text-white md:text-[52px]">{initiative.title}</h1>
+      {initiative.tagline && <p class="mt-3 text-lg font-medium text-gold">{initiative.tagline}</p>}
+    </div>
+    <WaveDivider fill="#fff" />
+  </section>
+
+  <section class="bg-white px-6 pb-21 pt-10 md:px-10">
+    <div class="mx-auto max-w-[840px]">
+      <p class="text-lg leading-[1.75] text-body">{initiative.description}</p>
+
+      {initiative.programs.length > 0 && (
+        <div class="mt-12 flex flex-col gap-5">
+          <h2 class="font-display text-2xl font-bold text-forest-900">Programs</h2>
+          {initiative.programs.map((program) => (
+            <div class="rounded-[22px] border border-border-soft bg-mint p-7 shadow-[0_14px_34px_-28px_rgba(20,84,58,0.4)]">
+              <h3 class="mb-2 font-display text-lg font-bold text-forest-900">{program.title}</h3>
+              <p class="leading-[1.7] text-body">{program.description}</p>
+            </div>
+          ))}
+        </div>
+      )}
+
+      <div class="mt-12 flex flex-wrap gap-3.5">
+        <a href="/get-involved" class="btn-lift inline-flex items-center gap-2 rounded-full bg-emerald-deep px-6 py-3.5 font-display text-sm font-bold text-white">Get Involved</a>
+        <a href="/donate" class="btn-lift inline-flex items-center gap-2 rounded-full border-[1.5px] border-border-warm px-6 py-3.5 font-display text-sm font-bold text-forest-900">Donate</a>
+      </div>
+    </div>
+  </section>
+
+  <CtaBand title="Help us keep these doors open." description="Every program runs on the generosity of donors and volunteers. Join us." />
+</Layout>

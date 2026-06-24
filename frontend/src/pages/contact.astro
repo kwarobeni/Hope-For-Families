@@ -1,0 +1,71 @@
+---
+import Layout from '../layouts/Layout.astro';
+import PageHero from '../components/PageHero.astro';
+---
+
+<Layout title="Contact Us" description="Get in touch with Hope For Families — volunteer, partner with us, access support, donate, or learn more about our programs in Dundee, Scotland.">
+  <PageHero
+    eyebrow="Get in touch"
+    title="We'd love to hear from you."
+    description="Whether you want to volunteer, partner with us, access support, donate, or learn more about our programs, our team is here to help."
+    maxWidth="max-w-[640px]"
+  />
+
+  <section class="bg-white px-6 pb-21 pt-10 md:px-10">
+    <div class="mx-auto max-w-[720px]">
+      <div class="mb-10 rounded-[24px] bg-mint p-8">
+        <h2 class="mb-1.5 font-display text-lg font-bold text-forest-900">Hope For Families</h2>
+        <p class="text-body">Dundee, Scotland</p>
+        <p class="text-body">Charity No: SC053715</p>
+        <div class="mt-4 flex gap-4 text-sm">
+          <a href="https://www.instagram.com/hopeforfamilies" target="_blank" rel="noopener" class="font-semibold text-emerald-deep">Instagram</a>
+          <a href="https://www.facebook.com/share/1EiJxZpgKo/?mibextid=wwXIfr" target="_blank" rel="noopener" class="font-semibold text-emerald-deep">Facebook</a>
+          <a href="https://www.tiktok.com/@hopeforfamiliesdundee" target="_blank" rel="noopener" class="font-semibold text-emerald-deep">TikTok</a>
+        </div>
+      </div>
+
+      <form id="contact-form" class="space-y-4">
+        <div>
+          <label class="mb-1.5 block text-xs font-bold uppercase tracking-wide text-forest-900">Name</label>
+          <input required name="name" class="field-input w-full rounded-xl border-[1.5px] border-border-warm px-4 py-2.5" />
+        </div>
+        <div>
+          <label class="mb-1.5 block text-xs font-bold uppercase tracking-wide text-forest-900">Email</label>
+          <input required type="email" name="email" class="field-input w-full rounded-xl border-[1.5px] border-border-warm px-4 py-2.5" />
+        </div>
+        <div>
+          <label class="mb-1.5 block text-xs font-bold uppercase tracking-wide text-forest-900">Message</label>
+          <textarea required name="message" rows={5} class="field-input w-full rounded-xl border-[1.5px] border-border-warm px-4 py-2.5"></textarea>
+        </div>
+        <button type="submit" class="btn-lift rounded-full bg-emerald-deep px-7 py-3.5 font-display text-sm font-bold text-white">
+          Send Message
+        </button>
+        <p id="contact-status" class="mt-2 text-sm"></p>
+      </form>
+    </div>
+  </section>
+
+  <script>
+    const form = document.getElementById('contact-form') as HTMLFormElement;
+    const status = document.getElementById('contact-status') as HTMLParagraphElement;
+    form?.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const data = new FormData(form);
+      status.textContent = 'Sending...';
+      try {
+        const res = await fetch(`${import.meta.env.PUBLIC_API_URL || 'http://localhost:4000/api'}/contact`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(Object.fromEntries(data)),
+        });
+        if (!res.ok) throw new Error();
+        status.textContent = "Thanks for reaching out — we'll be in touch soon.";
+        status.className = 'mt-2 text-sm text-emerald-deep';
+        form.reset();
+      } catch {
+        status.textContent = 'Something went wrong. Please try again.';
+        status.className = 'mt-2 text-sm text-red-600';
+      }
+    });
+  </script>
+</Layout>

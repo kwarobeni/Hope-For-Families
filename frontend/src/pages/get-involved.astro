@@ -1,0 +1,153 @@
+---
+import Layout from '../layouts/Layout.astro';
+import PageHero from '../components/PageHero.astro';
+import VolunteerForm from '../components/VolunteerForm';
+
+const roles = [
+  {
+    title: 'Mentoring young people',
+    body: 'Guide teens through our Adolescent Development program. Share a skill, change a path.',
+    chip: 'Weekly · evenings',
+    chipClass: 'bg-blue-tint text-hope-blue',
+    gradient: 'bg-[linear-gradient(150deg,#1F5AA6,#3FAE68)]',
+    icon: 'M9 8a3 3 0 1 0 0 6 3 3 0 0 0 0-6zM15 11a3 3 0 1 0-2.5-4.6M3 20c0-3 2.7-5 6-5s6 2 6 5',
+  },
+  {
+    title: 'Food bank & café',
+    body: 'Cook, serve and welcome guests at the Food Bank Café. The warmest shift in Dundee.',
+    chip: '2–3 hrs / week',
+    chipClass: 'bg-mint-tint text-emerald-deep',
+    gradient: 'bg-[linear-gradient(150deg,#F4B942,#e0796b)]',
+    icon: 'M3 11l18-5v12L3 13v-2zM11.6 16.8a3 3 0 1 1-5.8-1.6',
+  },
+  {
+    title: 'Football academy',
+    body: 'Lead drills and cheer on the team at FirstPass Football. No coaching badge required.',
+    chip: 'Fri evenings',
+    chipClass: 'bg-mint-tint text-emerald-deep',
+    gradient: 'bg-[linear-gradient(150deg,#3FAE68,#1F7A4D)]',
+    icon: 'M12 3l3 4-3 3-3-3 3-4z',
+  },
+  {
+    title: 'Community events',
+    body: 'Help host festivals, workshops and celebrations that bring the whole community together.',
+    chip: 'Flexible',
+    chipClass: 'bg-gold-tint text-gold-deep',
+    gradient: 'bg-[linear-gradient(150deg,#F4B942,#3FAE68)]',
+    icon: 'M12 2l2.9 6.3 6.6.8-4.9 4.6 1.3 6.7L12 17.8 6.1 20.4l1.3-6.7L2.5 9.1l6.6-.8z',
+  },
+  {
+    title: 'Wellbeing buddy',
+    body: 'Hold gentle space in the Cozy Corner and help families feel heard and supported.',
+    chip: 'Flexible',
+    chipClass: 'bg-mint-tint text-emerald-deep',
+    gradient: 'bg-[linear-gradient(150deg,#2E8B57,#1F5AA6)]',
+    icon: 'M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54z',
+  },
+  {
+    title: 'Admin & behind the scenes',
+    body: 'Lend admin, design, fundraising or social media skills from wherever you are.',
+    chip: 'Remote · flexible',
+    chipClass: 'bg-blue-tint text-hope-blue',
+    gradient: 'bg-[linear-gradient(150deg,#1F7A4D,#F4B942)]',
+    icon: 'M4 7h16M4 12h16M4 17h10',
+  },
+];
+---
+
+<Layout title="Get Involved" description="Volunteer, donate, or partner with Hope For Families to support African and ethnic minority families and young people in Dundee, Scotland.">
+  <PageHero
+    eyebrow="Get involved"
+    title="Give a little time. Change a lot of lives."
+    description="Our volunteers are the heartbeat of Hope. Whatever your skills or schedule, there's a place for you here."
+  />
+
+  <!-- ROLES -->
+  <section class="bg-white px-6 pb-10 pt-10 md:px-10">
+    <div class="mx-auto max-w-[1240px]">
+      <div class="mx-auto mb-10 max-w-[620px] text-center">
+        <span class="mb-3.5 inline-flex items-center gap-2 font-display text-xs font-semibold uppercase tracking-[0.2em] text-emerald-deep">
+          <span class="h-0.5 w-6 bg-emerald-deep"></span>Volunteer roles
+        </span>
+        <h2 class="font-display text-3xl font-bold tracking-tight text-forest-900 md:text-[38px]">Find your way to help.</h2>
+      </div>
+      <div class="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+        {roles.map((role) => (
+          <div class="card-lift rounded-[24px] border border-border-soft bg-white p-7 shadow-[0_14px_34px_-28px_rgba(20,84,58,0.4)]">
+            <div class={`mb-4.5 flex h-14 w-14 items-center justify-center rounded-full ${role.gradient}`}>
+              <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="1.7"><path d={role.icon}/></svg>
+            </div>
+            <h3 class="mb-2 font-display text-[19px] font-bold text-forest-900">{role.title}</h3>
+            <p class="mb-3.5 text-sm leading-[1.6] text-body">{role.body}</p>
+            <span class={`rounded-full px-3 py-1.5 font-display text-xs font-semibold ${role.chipClass}`}>{role.chip}</span>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- WHY VOLUNTEER + SIGN UP -->
+  <section class="mt-11 bg-mint px-6 py-21 md:px-10">
+    <div class="mx-auto grid max-w-[1240px] items-center gap-12 md:grid-cols-[0.9fr_1.1fr]">
+      <div>
+        <span class="mb-4 inline-flex items-center gap-2 font-display text-xs font-semibold uppercase tracking-[0.2em] text-emerald-deep">
+          <span class="h-0.5 w-6 bg-emerald-deep"></span>Why volunteer
+        </span>
+        <h2 class="mb-5.5 font-display text-3xl font-bold leading-[1.16] tracking-tight text-forest-900 md:text-[34px]">You'll get back more than you give.</h2>
+        <div class="flex flex-col gap-4.5">
+          <div class="flex gap-3.5">
+            <span class="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-white shadow-[0_8px_18px_-10px_rgba(20,84,58,0.4)]">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#2E8B57" stroke-width="2"><path d="M20 6L9 17l-5-5"/></svg>
+            </span>
+            <div>
+              <div class="font-display text-base font-bold text-forest-900">Real connection</div>
+              <p class="mt-1 text-sm leading-[1.55] text-body">Build friendships across cultures and generations.</p>
+            </div>
+          </div>
+          <div class="flex gap-3.5">
+            <span class="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-white shadow-[0_8px_18px_-10px_rgba(20,84,58,0.4)]">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#2E8B57" stroke-width="2"><path d="M20 6L9 17l-5-5"/></svg>
+            </span>
+            <div>
+              <div class="font-display text-base font-bold text-forest-900">Training &amp; support</div>
+              <p class="mt-1 text-sm leading-[1.55] text-body">Full induction, ongoing support and reference on request.</p>
+            </div>
+          </div>
+          <div class="flex gap-3.5">
+            <span class="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-white shadow-[0_8px_18px_-10px_rgba(20,84,58,0.4)]">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#2E8B57" stroke-width="2"><path d="M20 6L9 17l-5-5"/></svg>
+            </span>
+            <div>
+              <div class="font-display text-base font-bold text-forest-900">Flexible commitment</div>
+              <p class="mt-1 text-sm leading-[1.55] text-body">A couple of hours a week or a one-off event — you choose.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="rounded-[24px] bg-white p-9 shadow-[0_22px_48px_-30px_rgba(20,84,58,0.5)]">
+        <h3 class="mb-1.5 font-display text-2xl font-bold text-forest-900">Register your interest</h3>
+        <p class="mb-6 text-sm text-muted">Tell us a little about you and we'll be in touch within a few days.</p>
+        <VolunteerForm client:load />
+      </div>
+    </div>
+  </section>
+
+  <!-- PARTNERSHIPS -->
+  <section class="bg-white px-6 py-21 md:px-10">
+    <div class="relative mx-auto grid max-w-[1240px] items-center gap-10 overflow-hidden rounded-[28px] bg-[linear-gradient(150deg,#1F7A4D,#14543A)] p-9 md:grid-cols-[1fr_auto] md:p-13">
+      <div class="pointer-events-none absolute -right-12 -top-12 h-[240px] w-[240px] rounded-full bg-[radial-gradient(circle,rgba(244,185,66,0.3),transparent_70%)]"></div>
+      <div class="relative">
+        <h2 class="mb-2.5 font-display text-3xl font-bold leading-[1.16] text-white">Are you an organisation?</h2>
+        <p class="max-w-[560px] leading-[1.65] text-white/85">
+          Partner with us to sponsor a program, host a team volunteering day, or make Hope your charity of the year.
+          Let's build something lasting together.
+        </p>
+      </div>
+      <a href="/contact" class="btn-lift relative inline-flex items-center gap-2 whitespace-nowrap rounded-full bg-gold px-7 py-4 font-display text-base font-bold text-forest-900">
+        Talk partnerships
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#14543A" stroke-width="2.6"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+      </a>
+    </div>
+  </section>
+</Layout>

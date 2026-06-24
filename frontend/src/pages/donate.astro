@@ -1,0 +1,105 @@
+---
+import Layout from '../layouts/Layout.astro';
+import WaveDivider from '../components/WaveDivider.astro';
+import DonateButton from '../components/DonateButton';
+---
+
+<Layout title="Donate" description="Donate to Hope For Families via PayPal and help us continue delivering life-changing programs for African and ethnic minority families in Dundee, Scotland. Gift Aid available for UK taxpayers.">
+  <section class="relative overflow-hidden bg-[linear-gradient(155deg,#3FAE68_0%,#1F7A4D_70%,#176B43_100%)]">
+    <div class="pointer-events-none absolute -right-28 -top-20 h-[420px] w-[420px] rounded-full bg-[radial-gradient(circle,rgba(244,185,66,0.32),transparent_68%)]"></div>
+    <div class="pointer-events-none absolute -left-24 -bottom-40 h-[360px] w-[360px] rounded-full bg-[radial-gradient(circle,rgba(31,90,166,0.3),transparent_70%)]"></div>
+
+    <div class="relative mx-auto grid max-w-[1240px] items-start gap-12 px-6 py-10 pb-28 md:grid-cols-[1fr_0.92fr] md:px-10">
+      <div class="pt-5">
+        <span class="mb-5.5 inline-flex items-center gap-2 rounded-full bg-white/15 px-4 py-2 font-display text-xs font-semibold uppercase tracking-[0.14em] text-white">
+          <span class="h-[7px] w-[7px] rounded-full bg-gold"></span>Make a gift
+        </span>
+        <h1 class="max-w-[520px] font-display text-4xl font-extrabold leading-[1.05] text-white md:text-[56px]">
+          Your gift becomes someone's <span class="text-gold">welcome.</span>
+        </h1>
+        <p class="mt-5.5 max-w-[460px] text-lg leading-[1.65] text-white/90">
+          100% of your donation goes directly to families in our community — a warm meal, a safe space, a brighter
+          tomorrow.
+        </p>
+        <div class="mt-7 flex flex-col gap-3.5">
+          <div class="flex items-center gap-3">
+            <span class="flex h-7.5 w-7.5 items-center justify-center rounded-full bg-white/18"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.4"><path d="M20 6L9 17l-5-5"/></svg></span>
+            <span class="font-medium text-white/92">Registered Scottish Charity SC053715</span>
+          </div>
+          <div class="flex items-center gap-3">
+            <span class="flex h-7.5 w-7.5 items-center justify-center rounded-full bg-white/18"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.4"><path d="M20 6L9 17l-5-5"/></svg></span>
+            <span class="font-medium text-white/92">Gift Aid adds 25% at no cost to you</span>
+          </div>
+          <div class="flex items-center gap-3">
+            <span class="flex h-7.5 w-7.5 items-center justify-center rounded-full bg-white/18"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.4"><path d="M20 6L9 17l-5-5"/></svg></span>
+            <span class="font-medium text-white/92">Secure payment via PayPal</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="rounded-[24px] bg-white p-5 shadow-[0_30px_60px_-28px_rgba(0,0,0,0.45)] sm:p-8">
+        <DonateButton client:load />
+      </div>
+    </div>
+    <WaveDivider fill="#fff" />
+  </section>
+
+  <!-- IMPACT TIERS -->
+  <section class="bg-white px-6 pb-21 pt-10 md:px-10">
+    <div class="mx-auto max-w-[1240px]">
+      <div class="mx-auto mb-11 max-w-[620px] text-center">
+        <span class="mb-3.5 inline-flex items-center gap-2 font-display text-xs font-semibold uppercase tracking-[0.2em] text-emerald-deep">
+          <span class="h-0.5 w-6 bg-emerald-deep"></span>Where it goes
+        </span>
+        <h2 class="font-display text-3xl font-bold tracking-tight text-forest-900 md:text-[38px]">See what your gift can do.</h2>
+      </div>
+      <div class="grid gap-6 md:grid-cols-3">
+        <div class="rounded-[24px] bg-mint p-8 text-center">
+          <div class="font-display text-4xl font-extrabold text-emerald-deep">&pound;10</div>
+          <div class="mx-auto my-4.5 flex h-[54px] w-[54px] items-center justify-center rounded-full bg-white shadow-[0_8px_18px_-10px_rgba(20,84,58,0.4)]">
+            <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#d99b1e" stroke-width="1.7"><path d="M4 11h16v8a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2z"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+          </div>
+          <p class="leading-[1.6] text-body">Provides a <strong class="text-forest-900">week of warm meals</strong> at our Food Bank Café.</p>
+        </div>
+        <div class="relative overflow-hidden rounded-[24px] bg-forest-900 p-8 text-center">
+          <div class="pointer-events-none absolute -right-7.5 -top-7.5 h-[140px] w-[140px] rounded-full bg-[radial-gradient(circle,rgba(244,185,66,0.3),transparent_70%)]"></div>
+          <span class="relative mb-3 inline-block rounded-full bg-gold px-3 py-1.5 font-display text-[10px] font-bold uppercase tracking-[0.1em] text-forest-900">Most popular</span>
+          <div class="relative font-display text-4xl font-extrabold text-gold">&pound;25</div>
+          <div class="relative mx-auto my-4.5 flex h-[54px] w-[54px] items-center justify-center rounded-full bg-white/12">
+            <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="1.7"><path d="M12 2l2.9 6.3 6.6.8-4.9 4.6 1.3 6.7L12 17.8 6.1 20.4l1.3-6.7L2.5 9.1l6.6-.8z"/></svg>
+          </div>
+          <p class="relative leading-[1.6] text-white/85">Funds a <strong class="text-white">term of Little Stars STEM club</strong> for one curious child.</p>
+        </div>
+        <div class="rounded-[24px] bg-mint p-8 text-center">
+          <div class="font-display text-4xl font-extrabold text-emerald-deep">&pound;50</div>
+          <div class="mx-auto my-4.5 flex h-[54px] w-[54px] items-center justify-center rounded-full bg-white shadow-[0_8px_18px_-10px_rgba(20,84,58,0.4)]">
+            <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#1F5AA6" stroke-width="1.7"><path d="M3 20c0-3 2.7-5 6-5s6 2 6 5"/><circle cx="9" cy="8" r="3"/><path d="M16 15c2.5.4 4 2.3 4 5"/></svg>
+          </div>
+          <p class="leading-[1.6] text-body">Gives a family a <strong class="text-forest-900">month of food parcels</strong> and a place to belong.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- OTHER WAYS -->
+  <section class="bg-mint px-6 py-21 md:px-10">
+    <div class="mx-auto grid max-w-[1240px] gap-6 md:grid-cols-2">
+      <div class="rounded-[24px] bg-white p-9 shadow-[0_18px_44px_-30px_rgba(20,84,58,0.5)] md:p-10">
+        <div class="mb-4.5 flex h-13 w-13 items-center justify-center rounded-full bg-mint-tint">
+          <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#2E8B57" stroke-width="1.7"><rect x="2" y="7" width="20" height="14" rx="2"/><path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"/></svg>
+        </div>
+        <h3 class="mb-2.5 font-display text-xl font-bold text-forest-900">Corporate &amp; partnerships</h3>
+        <p class="mb-4.5 leading-[1.7] text-body">Match-fund a program, sponsor an event, or make us your charity of the year. We'll work with you on something meaningful.</p>
+        <a href="/get-involved" class="navlink font-display text-sm font-bold text-emerald-deep">Partner with us &rarr;</a>
+      </div>
+      <div class="rounded-[24px] bg-white p-9 shadow-[0_18px_44px_-30px_rgba(20,84,58,0.5)] md:p-10">
+        <div class="mb-4.5 flex h-13 w-13 items-center justify-center rounded-full bg-gold-tint">
+          <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#d99b1e" stroke-width="1.7"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54z"/></svg>
+        </div>
+        <h3 class="mb-2.5 font-display text-xl font-bold text-forest-900">Fundraise for us</h3>
+        <p class="mb-4.5 leading-[1.7] text-body">Run, bake, climb or celebrate — turn your moment into meals and mentoring for Dundee families. We'll cheer you on.</p>
+        <a href="/contact" class="navlink font-display text-sm font-bold text-gold-deep">Start fundraising &rarr;</a>
+      </div>
+    </div>
+  </section>
+</Layout>

@@ -1,0 +1,99 @@
+---
+import Layout from '../layouts/Layout.astro';
+import PageHero from '../components/PageHero.astro';
+import CtaBand from '../components/CtaBand.astro';
+import { api } from '../lib/api';
+
+const testimonials = await api.testimonials();
+const featured = testimonials.find((t) => t.is_featured) ?? testimonials[0];
+const rest = testimonials.filter((t) => t.id !== featured?.id);
+
+const gradients = [
+  'bg-[linear-gradient(150deg,#3FAE68,#1F5AA6)]',
+  'bg-[linear-gradient(150deg,#F4B942,#e0796b)]',
+  'bg-[linear-gradient(150deg,#1F5AA6,#3FAE68)]',
+  'bg-[linear-gradient(150deg,#3FAE68,#F4B942)]',
+  'bg-[linear-gradient(150deg,#1F7A4D,#3FAE68)]',
+];
+const labelColors = ['text-hope-blue', 'text-gold-deep', 'text-emerald-deep'];
+---
+
+<Layout title="Success Stories" description="Real lives, real impact — testimonials and stories from families, young people, and volunteers supported by Hope For Families.">
+  <PageHero
+    eyebrow="Success stories"
+    title="Real families. Real journeys."
+    description="Behind every number is a name, a face and a story of finding home. Here are a few of the families who make our community what it is."
+  />
+
+  {featured && (
+    <section class="bg-white px-6 pb-10 pt-10 md:px-10">
+      <div class="relative mx-auto max-w-[1240px] overflow-hidden rounded-[28px] bg-[linear-gradient(150deg,#1F7A4D,#14543A)] p-8 md:p-14">
+        <div class="pointer-events-none absolute -right-16 -top-16 h-[280px] w-[280px] rounded-full bg-[radial-gradient(circle,rgba(244,185,66,0.34),transparent_68%)]"></div>
+        <div class="relative grid items-center gap-10 md:grid-cols-[300px_1fr]">
+          <div class="relative hidden h-[320px] overflow-hidden rounded-[150px_150px_140px_140px] bg-[linear-gradient(160deg,#F4B942,#3FAE68)] md:block">
+            <div class="flex h-full items-center justify-center">
+              <svg width="44" height="44" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="1" opacity="0.5"><rect x="3" y="4" width="18" height="16" rx="2"/><circle cx="8.5" cy="9.5" r="1.8"/><path d="M21 16l-5-5L4 20"/></svg>
+            </div>
+          </div>
+          <div>
+            <span class="mb-4.5 inline-block rounded-full bg-gold px-3.5 py-1.5 font-display text-[11px] font-bold uppercase tracking-[0.1em] text-forest-900">Featured story</span>
+            <svg width="46" height="46" viewBox="0 0 24 24" fill="#F4B942" class="mb-3.5"><path d="M9.5 6C6.5 7.5 5 10 5 13v5h6v-6H8c0-2 .8-3.6 2.5-4.5L9.5 6zm9 0C15.5 7.5 14 10 14 13v5h6v-6h-3c0-2 .8-3.6 2.5-4.5L18.5 6z"/></svg>
+            <p class="mb-6 font-display text-2xl font-medium leading-[1.42] tracking-tight text-white md:text-[28px]">
+              &ldquo;{featured.content}&rdquo;
+            </p>
+            <div class="flex items-center gap-3">
+              <span class="font-display text-base font-bold text-gold">{featured.name}</span>
+              {featured.category && (
+                <>
+                  <span class="h-[5px] w-[5px] rounded-full bg-white/50"></span>
+                  <span class="text-[15px] text-white/82">{featured.category}</span>
+                </>
+              )}
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  )}
+
+  <section class="bg-white px-6 pb-21 pt-2 md:px-10">
+    <div class="mx-auto max-w-[1240px]">
+      {testimonials.length === 0 ? (
+        <p class="text-center text-muted">Stories coming soon.</p>
+      ) : (
+        <div class="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+          {rest.map((t, i) => (
+            <div class="card-lift overflow-hidden rounded-[24px] border border-border-soft bg-white shadow-[0_14px_34px_-28px_rgba(20,84,58,0.4)]">
+              <div class={`relative h-[160px] ${gradients[i % gradients.length]}`}>
+                <div class="flex h-full items-center justify-center">
+                  <svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="1.2" opacity="0.55"><rect x="3" y="4" width="18" height="16" rx="2"/><circle cx="8.5" cy="9.5" r="1.8"/><path d="M21 16l-5-5L4 20"/></svg>
+                </div>
+              </div>
+              <div class="p-7">
+                {t.category && (
+                  <span class={`font-display text-[11px] font-semibold uppercase tracking-[0.08em] ${labelColors[i % labelColors.length]}`}>{t.category}</span>
+                )}
+                <p class="my-3 font-display text-base font-medium leading-[1.5] text-forest-900">&ldquo;{t.content}&rdquo;</p>
+                <div class="flex items-center gap-2.5">
+                  <div class={`h-9 w-9 rounded-full ${gradients[i % gradients.length]}`}></div>
+                  <span class="font-display text-sm font-bold text-forest-900">{t.name}</span>
+                </div>
+              </div>
+            </div>
+          ))}
+
+          <div class="flex flex-col items-center justify-center rounded-[24px] bg-[linear-gradient(150deg,#3FAE68,#1F7A4D)] p-8 text-center">
+            <div class="font-display text-4xl font-extrabold text-white">{testimonials.length}+</div>
+            <p class="my-3 font-medium text-white/90">families now call Hope part of their story.</p>
+            <a href="/get-involved" class="btn-lift inline-flex items-center gap-2 rounded-full bg-gold px-5.5 py-3 font-display text-sm font-bold text-forest-900">
+              Add your story
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#14543A" stroke-width="2.6"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+            </a>
+          </div>
+        </div>
+      )}
+    </div>
+  </section>
+
+  <CtaBand title="Help write the next chapter." description="Your support turns a hard week into a fresh start for a family in Dundee." />
+</Layout>

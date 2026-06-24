@@ -1,0 +1,44 @@
+---
+import Layout from '../layouts/Layout.astro';
+import PageHero from '../components/PageHero.astro';
+import { api } from '../lib/api';
+
+const resources = await api.resources();
+const grouped = resources.reduce<Record<string, typeof resources>>((acc, r) => {
+  const key = r.category || 'Other';
+  (acc[key] ||= []).push(r);
+  return acc;
+}, {});
+---
+
+<Layout title="Resources" description="Download Hope For Families' policies and documents, including our Safeguarding Policy, Privacy Policy, GDPR Compliance, and Code of Conduct.">
+  <PageHero
+    eyebrow="Transparency"
+    title="Resources & policies."
+    description="Downloadable policies and documents for transparency and accountability."
+    maxWidth="max-w-[600px]"
+  />
+
+  <section class="bg-white px-6 pb-21 pt-10 md:px-10">
+    <div class="mx-auto max-w-[760px]">
+      {Object.entries(grouped).map(([category, items]) => (
+        <div class="mb-9 rounded-[22px] border border-border-soft bg-mint p-7">
+          <h2 class="mb-4 font-display text-lg font-bold text-forest-900">{category}</h2>
+          <ul class="flex flex-col gap-2.5">
+            {items.map((resource) => (
+              <li>
+                {resource.file_url ? (
+                  <a href={resource.file_url} target="_blank" rel="noopener" class="font-semibold text-emerald-deep hover:underline">
+                    {resource.title}
+                  </a>
+                ) : (
+                  <span class="text-muted">{resource.title} (coming soon)</span>
+                )}
+              </li>
+            ))}
+          </ul>
+        </div>
+      ))}
+    </div>
+  </section>
+</Layout>
