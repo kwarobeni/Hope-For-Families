@@ -43,7 +43,6 @@ jobs:
           local-dir: backend/
           server-dir: ./backend/
           state-name: .ftp-deploy-sync-state-backend.json
-          dangerous-clean-slate: true
           exclude: |
             **/node_modules/**
             **/.env
