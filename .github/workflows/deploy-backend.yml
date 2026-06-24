@@ -14,6 +14,17 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
+      # The FTP account is chrooted to public_html, so backend source necessarily
+      # lands inside the web-served tree. Block direct HTTP access to it entirely
+      # (Hostinger's Node.js app feature reverse-proxies /api/* separately once
+      # configured; it doesn't need the raw files to be web-readable).
+      - name: Add deny-all .htaccess for backend folder
+        run: |
+          mkdir -p backend
+          cat <<'EOF' > backend/.htaccess
+          Require all denied
+          EOF
+
       # Uploads backend source (no node_modules, no .env, uploads/ left alone on the
       # server). Hostinger's Business plan Node.js app doesn't expose a remote way to
       # run `npm install` or restart the process over plain FTP, so after this step
@@ -32,6 +43,7 @@ jobs:
           local-dir: backend/
           server-dir: ./backend/
           state-name: .ftp-deploy-sync-state-backend.json
+          dangerous-clean-slate: true
           exclude: |
             **/node_modules/**
             **/.env
