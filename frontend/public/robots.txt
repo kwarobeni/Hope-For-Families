@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://www.hopeforfamilies.org.uk/sitemap-index.xml
+Sitemap: https://www.hopeforfamiliescharity.org.uk/sitemap-index.xml

@@ -7,7 +7,7 @@ import sitemap from '@astrojs/sitemap';
 
 // https://astro.build/config
 export default defineConfig({
-  site: 'https://www.hopeforfamilies.org.uk',
+  site: 'https://www.hopeforfamiliescharity.org.uk',
   integrations: [react(), sitemap()],
 
   vite: {

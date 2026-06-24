@@ -19,7 +19,7 @@ Two real options, both already set up in this repo:
    - In your GitHub repo → Settings → Secrets and variables → Actions, add:
      - `HOSTINGER_FTP_SERVER` — usually your domain or the IP shown in hPanel's FTP details
      - `HOSTINGER_FTP_USERNAME`, `HOSTINGER_FTP_PASSWORD`
-     - `PUBLIC_API_URL` — e.g. `https://www.hopeforfamilies.org.uk/api` (or your API subdomain)
+     - `PUBLIC_API_URL` — e.g. `https://www.hopeforfamiliescharity.org.uk/api` (or your API subdomain)
      - `PUBLIC_PAYPAL_CLIENT_ID`
    - Push to `main`. Each workflow only runs when its app's folder changes (`frontend/**`, `admin/**`, `backend/**`).
    - The backend workflow uploads source over FTP but **cannot** run `npm install` or restart the Node app remotely
@@ -41,7 +41,7 @@ In hPanel → Advanced → Node.js:
 
 1. Create a new Node.js application.
    - Application root: the folder you upload `backend/` into (e.g. `backend`).
-   - Application URL: a subdomain or path you'll proxy `/api` to (e.g. `api.hopeforfamilies.org.uk`, or configure
+   - Application URL: a subdomain or path you'll proxy `/api` to (e.g. `api.hopeforfamiliescharity.org.uk`, or configure
      your main domain to reverse-proxy `/api/*` to this app — check Hostinger's current Node.js app docs for the
      exact routing options on your plan).
    - Application startup file: `src/server.js`.
@@ -56,7 +56,7 @@ In hPanel → Advanced → Node.js:
    - `RESEND_API_KEY`, `EMAIL_FROM`, `CHARITY_NOTIFICATION_EMAIL`
    - `ADMIN_SEED_EMAIL`, `ADMIN_SEED_PASSWORD` (used once by `npm run seed`, then you can rotate the password from
      the admin panel)
-   - `CORS_ORIGIN` — your real domain(s), e.g. `https://www.hopeforfamilies.org.uk`
+   - `CORS_ORIGIN` — your real domain(s), e.g. `https://www.hopeforfamiliescharity.org.uk`
 4. Run migrations and seed once, from the app's terminal (or via SSH):
    ```bash
    npm run migrate
@@ -89,7 +89,7 @@ npm run build
 ```
 
 Upload the contents of `admin/dist/` into `public_html/admin/` (the admin SPA is configured with `base: '/admin/'`
-in `vite.config.ts`, matching this path). Visiting `https://www.hopeforfamilies.org.uk/admin/` should show the
+in `vite.config.ts`, matching this path). Visiting `https://www.hopeforfamiliescharity.org.uk/admin/` should show the
 login screen.
 
 > Because the admin SPA uses client-side routing, add a rewrite rule so any path under `/admin/*` that isn't a real
