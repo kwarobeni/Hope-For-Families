@@ -6,10 +6,15 @@ interface Props {
 const { fill = '#fff', flip = false } = Astro.props;
 ---
 
-<svg
-  viewBox="0 0 1280 70"
-  preserveAspectRatio="none"
-  class:list={['block h-[60px] w-full md:h-[70px]', { 'rotate-180': flip }]}
->
-  <path d="M0,38 C260,72 520,6 780,28 C980,45 1140,58 1280,34 L1280,70 L0,70 Z" fill={fill} />
-</svg>
+<div class:list={['relative h-[60px] w-full overflow-hidden md:h-[70px]', { 'rotate-180': flip }]}>
+  <svg
+    viewBox="0 0 2560 70"
+    preserveAspectRatio="none"
+    class="animate-wave-flow absolute inset-0 block h-full w-[200%]"
+  >
+    <path
+      d="M0,38 C260,72 520,6 780,28 C980,45 1140,58 1280,34 C1540,72 1800,6 2060,28 C2260,45 2420,58 2560,34 L2560,70 L0,70 Z"
+      fill={fill}
+    />
+  </svg>
+</div>

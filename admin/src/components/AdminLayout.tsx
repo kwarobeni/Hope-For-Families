@@ -33,9 +33,9 @@ export default function AdminLayout() {
     <div className="flex min-h-screen bg-mint">
       {/* mobile top bar */}
       <div className="fixed inset-x-0 top-0 z-40 flex items-center justify-between bg-forest-900 px-4 py-3.5 lg:hidden">
-        <div className="flex items-center gap-1.5">
-          <span className="text-xl leading-none text-white" style={{ fontFamily: 'var(--font-script)' }}>hope</span>
-          <span className="self-center text-[8px] font-semibold tracking-[0.3em] text-white/60">ADMIN</span>
+        <div className="flex items-center gap-2">
+          <img src="/images/logo-icon.png" alt="" className="h-7 w-auto" />
+          <span className="font-display text-sm font-bold leading-none text-white">Hope For Families</span>
         </div>
         <button
           onClick={() => setNavOpen(true)}
@@ -58,12 +58,9 @@ export default function AdminLayout() {
         }`}
       >
         <div className="flex items-center justify-between border-b border-white/10 px-5 py-5">
-          <div className="flex items-center gap-1.5">
-            <span className="text-2xl leading-none text-white" style={{ fontFamily: 'var(--font-script)' }}>hope</span>
-            <svg width="13" height="13" viewBox="0 0 24 24" className="mb-1">
-              <path fill="#F4B942" d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54z" />
-            </svg>
-            <span className="ml-1 self-center text-[8px] font-semibold tracking-[0.3em] text-white/60">ADMIN</span>
+          <div className="flex items-center gap-2">
+            <img src="/images/logo-icon.png" alt="" className="h-8 w-auto" />
+            <span className="font-display text-base font-bold leading-none text-white">Hope For Families</span>
           </div>
           <button onClick={() => setNavOpen(false)} aria-label="Close menu" className="text-white/70 lg:hidden">
             <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2"><path d="M6 6l12 12M18 6L6 18" /></svg>

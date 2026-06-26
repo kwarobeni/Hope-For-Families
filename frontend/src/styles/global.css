@@ -79,4 +79,21 @@
     border-color: var(--color-emerald-deep);
     box-shadow: 0 0 0 3px rgba(46, 139, 87, 0.15);
   }
+  .animate-wave-flow {
+    animation: wave-flow 14s linear infinite;
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .animate-wave-flow {
+      animation: none;
+    }
+  }
+}
+
+@keyframes wave-flow {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(-50%);
+  }
 }

@@ -31,12 +31,7 @@ export default function Login() {
 
       <form onSubmit={handleSubmit} className="relative w-full max-w-sm space-y-5 rounded-[24px] bg-white p-9 shadow-[0_30px_60px_-28px_rgba(0,0,0,0.45)]">
         <div className="flex flex-col items-center gap-1.5 text-center">
-          <div className="flex items-center gap-1.5">
-            <span className="text-3xl leading-none text-forest-900" style={{ fontFamily: 'var(--font-script)' }}>hope</span>
-            <svg width="15" height="15" viewBox="0 0 24 24" className="mb-1">
-              <path fill="#F4B942" d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54z" />
-            </svg>
-          </div>
+          <img src="/images/logo-full.png" alt="Hope For Families" className="h-16 w-auto" />
           <span className="text-[9px] font-semibold tracking-[0.3em] text-muted">ADMIN PORTAL</span>
         </div>
 

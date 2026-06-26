@@ -16,15 +16,16 @@ function isActive(href: string) {
 }
 ---
 
-<div class="relative overflow-hidden bg-[linear-gradient(155deg,#3FAE68_0%,#1F7A4D_70%,#176B43_100%)]">
-  <div class="pointer-events-none absolute -right-28 -top-20 h-[340px] w-[340px] rounded-full bg-[radial-gradient(circle,rgba(244,185,66,0.32),transparent_68%)]"></div>
-  <div class="pointer-events-none absolute -left-24 -bottom-16 h-[260px] w-[260px] rounded-full bg-[radial-gradient(circle,rgba(31,90,166,0.3),transparent_70%)]"></div>
+<div class="relative bg-[linear-gradient(155deg,#3FAE68_0%,#1F7A4D_70%,#176B43_100%)]">
+  <div class="pointer-events-none absolute inset-0 overflow-hidden">
+    <div class="absolute -right-28 -top-20 h-[340px] w-[340px] rounded-full bg-[radial-gradient(circle,rgba(244,185,66,0.32),transparent_68%)]"></div>
+    <div class="absolute -left-24 -bottom-16 h-[260px] w-[260px] rounded-full bg-[radial-gradient(circle,rgba(31,90,166,0.3),transparent_70%)]"></div>
+  </div>
 
   <nav class="relative mx-auto flex max-w-[1240px] items-center justify-between gap-4 px-6 py-5 md:px-10">
-    <a href="/" class="flex shrink-0 items-center gap-1.5">
-      <span class="font-script text-[28px] leading-none text-white" style="font-family: var(--font-script);">hope</span>
-      <svg width="14" height="14" viewBox="0 0 24 24" class="mb-1"><path fill="#F4B942" d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54z"/></svg>
-      <span class="ml-1 self-center text-[8px] font-semibold tracking-[0.3em] text-white/70">FOR FAMILIES</span>
+    <a href="/" class="flex shrink-0 items-center gap-2">
+      <img src="/images/logo-icon.png" alt="" class="h-9 w-auto" />
+      <span class="font-display text-lg font-bold leading-none text-white">Hope For Families</span>
     </a>
 
     <div class="hidden items-center gap-5 xl:flex">
@@ -48,22 +49,34 @@ function isActive(href: string) {
       </a>
     </div>
 
-    <a
-      href="/donate"
-      class="btn-lift inline-flex shrink-0 items-center gap-1.5 rounded-full bg-white px-4 py-2 font-display text-sm font-bold text-forest-800 xl:hidden"
-    >
-      Donate
-    </a>
-  </nav>
-
-  <nav class="relative flex gap-4 overflow-x-auto px-6 pb-4 text-[13px] font-medium xl:hidden">
-    {navItems.map((item) => (
+    <div class="flex shrink-0 items-center gap-2.5 xl:hidden">
       <a
-        href={item.href}
-        class:list={['whitespace-nowrap text-white/85', { 'font-semibold text-white underline decoration-gold decoration-2 underline-offset-4': isActive(item.href) }]}
+        href="/donate"
+        class="btn-lift inline-flex shrink-0 items-center gap-1.5 rounded-full bg-white px-4 py-2 font-display text-sm font-bold text-forest-800"
       >
-        {item.label}
+        Donate
       </a>
-    ))}
+
+      <details class="group relative">
+        <summary class="flex h-10 w-10 list-none items-center justify-center rounded-full bg-white/15 text-white [&::-webkit-details-marker]:hidden">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" class="transition-transform group-open:rotate-90">
+            <path d="M4 7h16M4 12h16M4 17h16" />
+          </svg>
+        </summary>
+        <div class="absolute right-0 top-[calc(100%+10px)] z-50 w-60 rounded-2xl bg-white p-2.5 shadow-[0_20px_44px_-16px_rgba(0,0,0,0.35)]">
+          {navItems.map((item) => (
+            <a
+              href={item.href}
+              class:list={[
+                'block rounded-xl px-4 py-2.5 font-display text-sm font-semibold',
+                isActive(item.href) ? 'bg-mint text-emerald-deep' : 'text-forest-900 hover:bg-mint',
+              ]}
+            >
+              {item.label}
+            </a>
+          ))}
+        </div>
+      </details>
+    </div>
   </nav>
 </div>
