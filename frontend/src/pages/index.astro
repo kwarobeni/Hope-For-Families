@@ -194,6 +194,41 @@ const programPhotos: Record<string, string> = {
     </section>
   )}
 
+  <!-- MOMENTS GALLERY -->
+  <section class="bg-white px-6 py-20 md:px-10">
+    <div class="mx-auto max-w-[1240px]">
+      <div class="mb-10 text-center">
+        <span class="mb-3.5 inline-flex items-center gap-2 font-display text-xs font-semibold uppercase tracking-[0.2em] text-emerald-deep">
+          <span class="h-0.5 w-6 bg-emerald-deep"></span>Real Moments<span class="h-0.5 w-6 bg-emerald-deep"></span>
+        </span>
+        <h2 class="font-display text-3xl font-bold tracking-tight text-forest-900 md:text-[38px]">Straight from our events.</h2>
+        <p class="mx-auto mt-3 max-w-[560px] text-body">A glimpse of the families, volunteers, and celebrations that make Hope For Families what it is.</p>
+      </div>
+      <div class="grid grid-cols-2 gap-3 md:grid-cols-4 md:gap-4">
+        {[
+          ['moment-1.jpg', 'Easter celebration at Hope For Families'],
+          ['moment-2.jpg', 'Family fun at our Easter event'],
+          ['moment-3.jpg', 'Community gathered at our summer festival'],
+          ['moment-4.jpg', 'Tug of war at the summer festival'],
+          ['moment-5.jpg', 'A warm welcome at Easter'],
+          ['moment-6.jpg', 'Sack races at our summer festival'],
+          ['moment-7.jpg', 'Volunteers at our Cake Event'],
+          ['moment-8.jpg', 'Young people enjoying our Cake Event'],
+        ].map(([src, alt]) => (
+          <div class="card-lift h-32 overflow-hidden rounded-2xl shadow-[0_10px_26px_-18px_rgba(20,84,58,0.4)] md:h-44">
+            <img src={`/images/${src}`} alt={alt} class="h-full w-full object-cover" />
+          </div>
+        ))}
+      </div>
+      <div class="mt-9 text-center">
+        <a href="/success-stories" class="navlink inline-flex items-center gap-1.5 font-display text-sm font-bold text-emerald-deep">
+          See more stories
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#2E8B57" stroke-width="2.4"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+        </a>
+      </div>
+    </div>
+  </section>
+
   <!-- STORY -->
   {featured && (
     <section class="bg-white px-6 py-20 md:px-10">
@@ -245,22 +280,27 @@ const programPhotos: Record<string, string> = {
             <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#2E8B57" stroke-width="2.4"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
           </a>
         </div>
-        <div class="flex flex-col gap-3.5">
-          {upcomingEvents.map((event, i) => (
-            <a href={`/events/${event.slug}`} class="card-lift flex flex-col gap-4 rounded-[18px] bg-white p-5 shadow-[0_12px_30px_-26px_rgba(20,84,58,0.4)] sm:flex-row sm:items-center md:gap-6">
-              <div class="flex min-w-0 flex-1 items-center gap-4">
-                <div class="flex h-[60px] w-[60px] shrink-0 flex-col items-center justify-center rounded-full bg-mint-tint">
-                  <span class="font-display text-[11px] font-bold tracking-[0.06em] text-emerald-deep">{formatDate(event.start_at).split(' ')[0].toUpperCase()}</span>
-                  <span class="mt-0.5 font-display text-xl font-extrabold text-forest-900">{new Date(event.start_at).getDate()}</span>
+        <div class="grid gap-6 md:grid-cols-[300px_1fr]">
+          <div class="h-40 w-full overflow-hidden rounded-[24px] shadow-[0_18px_44px_-26px_rgba(20,84,58,0.4)] md:h-full md:min-h-[260px]">
+            <img src="/images/moment-3.jpg" alt="Community gathered at one of our events" class="h-full w-full object-cover" />
+          </div>
+          <div class="flex flex-col gap-3.5">
+            {upcomingEvents.map((event, i) => (
+              <a href={`/events/${event.slug}`} class="card-lift flex flex-col gap-4 rounded-[18px] bg-white p-5 shadow-[0_12px_30px_-26px_rgba(20,84,58,0.4)] sm:flex-row sm:items-center md:gap-6">
+                <div class="flex min-w-0 flex-1 items-center gap-4">
+                  <div class="flex h-[60px] w-[60px] shrink-0 flex-col items-center justify-center rounded-full bg-mint-tint">
+                    <span class="font-display text-[11px] font-bold tracking-[0.06em] text-emerald-deep">{formatDate(event.start_at).split(' ')[0].toUpperCase()}</span>
+                    <span class="mt-0.5 font-display text-xl font-extrabold text-forest-900">{new Date(event.start_at).getDate()}</span>
+                  </div>
+                  <div class="min-w-0 flex-1">
+                    <h3 class="mb-0.5 font-display text-lg font-bold leading-tight text-forest-900">{event.title}</h3>
+                    <p class="text-sm text-muted">{formatDate(event.start_at)}{event.location ? ` · ${event.location}` : ''}</p>
+                  </div>
                 </div>
-                <div class="min-w-0 flex-1">
-                  <h3 class="mb-0.5 font-display text-lg font-bold leading-tight text-forest-900">{event.title}</h3>
-                  <p class="text-sm text-muted">{formatDate(event.start_at)}{event.location ? ` · ${event.location}` : ''}</p>
-                </div>
-              </div>
-              <span class={`self-start rounded-full px-5 py-2.5 font-display text-sm font-bold text-white sm:shrink-0 ${spineColors[i % spineColors.length]}`}>Details</span>
-            </a>
-          ))}
+                <span class={`self-start rounded-full px-5 py-2.5 font-display text-sm font-bold text-white sm:shrink-0 ${spineColors[i % spineColors.length]}`}>Details</span>
+              </a>
+            ))}
+          </div>
         </div>
       </div>
     </section>
@@ -269,5 +309,6 @@ const programPhotos: Record<string, string> = {
   <CtaBand
     title="Be part of someone's brighter future."
     description="Whether you give, volunteer or partner with us — every act of hope helps a family belong."
+    bgImage="/images/moment-2.jpg"
   />
 </Layout>
