@@ -34,7 +34,13 @@ jobs:
         working-directory: frontend
         run: npm run build
 
+      # Hostinger's FTPS occasionally drops the control-socket connection
+      # before any file transfer starts (a plain network blip, not a config
+      # problem). Retry once after a short cooldown rather than failing the
+      # whole deploy on a transient hiccup.
       - name: Deploy to Hostinger (public_html)
+        id: deploy1
+        continue-on-error: true
         uses: SamKirkland/FTP-Deploy-Action@v4.3.5
         with:
           server: ${{ secrets.HOSTINGER_FTP_SERVER }}
@@ -44,3 +50,24 @@ jobs:
           local-dir: frontend/dist/
           server-dir: ./
           state-name: .ftp-deploy-sync-state-frontend.json
+
+      - name: Wait before retry
+        if: steps.deploy1.outcome == 'failure'
+        run: sleep 20
+
+      - name: Retry deploy to Hostinger
+        id: deploy2
+        if: steps.deploy1.outcome == 'failure'
+        uses: SamKirkland/FTP-Deploy-Action@v4.3.5
+        with:
+          server: ${{ secrets.HOSTINGER_FTP_SERVER }}
+          username: ${{ secrets.HOSTINGER_FTP_USERNAME }}
+          password: ${{ secrets.HOSTINGER_FTP_PASSWORD }}
+          protocol: ftps
+          local-dir: frontend/dist/
+          server-dir: ./
+          state-name: .ftp-deploy-sync-state-frontend.json
+
+      - name: Fail if both deploy attempts failed
+        if: steps.deploy1.outcome == 'failure' && steps.deploy2.outcome == 'failure'
+        run: exit 1
