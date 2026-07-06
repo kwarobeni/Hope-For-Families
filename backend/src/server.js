@@ -2,6 +2,8 @@ require('dotenv').config();
 require('express-async-errors');
 const express = require('express');
 const cors = require('cors');
+const path = require('path');
+const fs = require('fs');
 
 const authRoutes = require('./routes/auth');
 const initiativeRoutes = require('./routes/initiatives');
@@ -44,7 +46,17 @@ app.use('/api/webhooks', webhookRoutes);
 app.use('/api/uploads', uploadRoutes);
 app.use('/api/contact', contactRoutes);
 
-app.use((req, res) => res.status(404).json({ error: 'Not found' }));
+// Serve the Astro static frontend when FRONTEND_DIST is set
+const frontendDist = process.env.FRONTEND_DIST;
+if (frontendDist && fs.existsSync(frontendDist)) {
+  app.use(express.static(frontendDist));
+  app.get('*', (req, res) => {
+    const html = path.join(frontendDist, '404.html');
+    res.status(404).sendFile(fs.existsSync(html) ? html : path.join(frontendDist, 'index.html'));
+  });
+} else {
+  app.use((req, res) => res.status(404).json({ error: 'Not found' }));
+}
 
 // eslint-disable-next-line no-unused-vars
 app.use((err, req, res, next) => {
