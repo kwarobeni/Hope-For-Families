@@ -1,25 +1,34 @@
-// Hostinger locks the Node.js app root to admin/.
-// This file lives alongside the compiled Vite build in public_html/admin/.
-// It simply starts the Express backend — Apache already serves the Astro
-// frontend as static files, so no frontend build step is needed here.
 import { spawn } from 'child_process';
 import { existsSync } from 'fs';
 import { fileURLToPath } from 'url';
 import { join, dirname } from 'path';
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
-const backendDir = join(__dirname, '..', 'backend');
 
-console.log('[startup] admin dir  :', __dirname);
-console.log('[startup] backend dir:', backendDir, '— exists:', existsSync(backendDir));
+// Hostinger Node.js app runs from /nodejs/ (outside public_html).
+// Backend is FTP-deployed to public_html/backend/, so from /nodejs/
+// the correct relative path is ../public_html/backend — not ../backend.
+// We try several candidates so this works regardless of folder layout.
+const candidates = [
+  process.env.BACKEND_DIR,
+  join(__dirname, '..', 'public_html', 'backend'),
+  join(__dirname, '..', 'backend'),
+  join(__dirname, 'backend'),
+].filter(Boolean);
 
-if (!existsSync(backendDir)) {
-  console.error('[startup] ERROR: backend directory not found at', backendDir);
-  console.error('[startup] Make sure the backend has been deployed via GitHub Actions.');
+console.log('[startup] running from:', __dirname);
+for (const c of candidates) {
+  console.log('[startup]', existsSync(c) ? '✓' : '✗', c);
+}
+
+const backendDir = candidates.find(existsSync);
+
+if (!backendDir) {
+  console.error('[startup] ERROR: backend not found in any of the above paths.');
   process.exit(1);
 }
 
-console.log('[startup] Starting Express backend...');
+console.log('[startup] starting backend from:', backendDir);
 
 const server = spawn(process.execPath, ['start.js'], {
   cwd: backendDir,
@@ -28,6 +37,5 @@ const server = spawn(process.execPath, ['start.js'], {
 });
 
 server.on('exit', (code) => {
-  console.log('[startup] Backend exited with code', code);
   process.exit(code ?? 0);
 });
