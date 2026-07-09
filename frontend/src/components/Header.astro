@@ -38,11 +38,10 @@ function isActive(href: string) {
         </a>
       ))}
       <a
-        href="/donate"
-        class:list={[
-          'btn-lift inline-flex shrink-0 items-center gap-1.5 rounded-full px-5 py-2.5 font-display text-sm font-bold',
-          isActive('/donate') ? 'bg-gold text-forest-900' : 'bg-white text-forest-800',
-        ]}
+        href="https://checkout.justgiving.com/908482wxjj"
+        target="_blank"
+        rel="noopener"
+        class="btn-lift inline-flex shrink-0 items-center gap-1.5 rounded-full bg-white px-5 py-2.5 font-display text-sm font-bold text-forest-800"
       >
         Donate
         <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
@@ -51,7 +50,9 @@ function isActive(href: string) {
 
     <div class="flex shrink-0 items-center gap-2.5 xl:hidden">
       <a
-        href="/donate"
+        href="https://checkout.justgiving.com/908482wxjj"
+        target="_blank"
+        rel="noopener"
         class="btn-lift inline-flex shrink-0 items-center gap-1.5 rounded-full bg-white px-4 py-2 font-display text-sm font-bold text-forest-800"
       >
         Donate

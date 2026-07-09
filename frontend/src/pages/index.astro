@@ -3,6 +3,7 @@ import Layout from '../layouts/Layout.astro';
 import WaveDivider from '../components/WaveDivider.astro';
 import CtaBand from '../components/CtaBand.astro';
 import ImpactCounters from '../components/ImpactCounters';
+import EventCountdown from '../components/EventCountdown';
 import { api } from '../lib/api';
 
 const [initiatives, stats, testimonials, events] = await Promise.all([
@@ -39,24 +40,34 @@ const programPhotos: Record<string, string> = {
 
 <Layout title="Home">
   <!-- HERO -->
-  <section class="relative overflow-hidden bg-[linear-gradient(155deg,#3FAE68_0%,#1F7A4D_70%,#176B43_100%)]">
-    <div class="pointer-events-none absolute -right-28 -top-20 h-[420px] w-[420px] rounded-full bg-[radial-gradient(circle,rgba(244,185,66,0.32),transparent_68%)]"></div>
-    <div class="pointer-events-none absolute -left-24 bottom-10 h-[340px] w-[340px] rounded-full bg-[radial-gradient(circle,rgba(31,90,166,0.3),transparent_70%)]"></div>
+  <section class="relative min-h-[560px] overflow-hidden bg-[linear-gradient(155deg,#3FAE68_0%,#1F7A4D_60%,#176B43_100%)] md:min-h-[600px]">
+    <!-- Decorative orbs -->
+    <div class="pointer-events-none absolute -right-28 -top-20 h-[420px] w-[420px] rounded-full bg-[radial-gradient(circle,rgba(244,185,66,0.28),transparent_68%)]"></div>
+    <div class="pointer-events-none absolute -left-24 bottom-10 h-[340px] w-[340px] rounded-full bg-[radial-gradient(circle,rgba(31,90,166,0.25),transparent_70%)]"></div>
 
-    <div class="relative mx-auto grid max-w-[1240px] items-center gap-10 px-6 py-11 pb-24 md:grid-cols-[1.05fr_0.95fr] md:px-10 md:pb-28">
-      <div>
+    <!-- Desktop: beach family photo fills the right side, left edge dissolves into the gradient -->
+    <div
+      class="pointer-events-none absolute inset-y-0 right-0 hidden w-[58%] md:block"
+      style="mask-image: linear-gradient(to right, transparent 0%, rgba(0,0,0,0.6) 24%, black 50%); -webkit-mask-image: linear-gradient(to right, transparent 0%, rgba(0,0,0,0.6) 24%, black 50%);"
+    >
+      <img src="/images/hero-beach-family.png" alt="A happy family laughing together at the beach" class="h-full w-full object-cover" />
+    </div>
+
+    <!-- Text content -->
+    <div class="relative mx-auto max-w-[1240px] px-6 py-12 pb-24 md:px-10 md:pb-32">
+      <div class="max-w-[520px]">
         <span class="mb-6 inline-flex items-center gap-2 rounded-full bg-white/15 px-4 py-2 font-display text-xs font-semibold uppercase tracking-[0.14em] text-white">
           <span class="h-[7px] w-[7px] rounded-full bg-gold"></span>Dundee &middot; Scotland
         </span>
-        <h1 class="max-w-[560px] font-display text-4xl font-extrabold leading-[1.08] tracking-tight text-white sm:text-5xl sm:leading-[1.03] md:text-[64px]">
+        <h1 class="font-display text-4xl font-extrabold leading-[1.08] tracking-tight text-white sm:text-5xl sm:leading-[1.03] md:text-[64px]">
           Where every family finds <span class="text-gold">hope.</span>
         </h1>
-        <p class="mt-5 max-w-[470px] text-lg leading-relaxed text-white/90">
+        <p class="mt-5 max-w-[460px] text-lg leading-relaxed text-white/90">
           Building stronger families, empowered communities and brighter futures for African and ethnic-minority
           families across Scotland.
         </p>
         <div class="mt-8 flex flex-wrap items-center gap-3.5">
-          <a href="/donate" class="btn-lift inline-flex items-center gap-2 rounded-full bg-gold px-7 py-4 font-display text-base font-bold text-forest-700 shadow-[0_14px_30px_-12px_rgba(244,185,66,0.6)]">
+          <a href="https://checkout.justgiving.com/908482wxjj" target="_blank" rel="noopener" class="btn-lift inline-flex items-center gap-2 rounded-full bg-gold px-7 py-4 font-display text-base font-bold text-forest-700 shadow-[0_14px_30px_-12px_rgba(244,185,66,0.6)]">
             Donate today
             <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#1F7A4D" stroke-width="2.6"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
           </a>
@@ -64,30 +75,27 @@ const programPhotos: Record<string, string> = {
             Discover programs
           </a>
         </div>
-      </div>
-
-      <div class="mb-2 h-56 w-full overflow-hidden rounded-[28px] shadow-[0_16px_36px_-16px_rgba(0,0,0,0.3)] md:hidden">
-        <img src="/images/hero-family.jpg" alt="A happy family together" class="h-full w-full object-cover" />
-      </div>
-
-      <div class="relative hidden h-[400px] md:block">
-        <div class="absolute right-8 top-3 h-[300px] w-[240px] overflow-hidden rounded-[140px_140px_130px_130px] shadow-[0_24px_50px_-20px_rgba(0,0,0,0.3)]">
-          <img src="/images/hero-family.jpg" alt="A happy family together" class="h-full w-full object-cover" />
-        </div>
-        <div class="absolute bottom-0 left-0 h-[190px] w-[190px] overflow-hidden rounded-full shadow-[0_20px_44px_-18px_rgba(0,0,0,0.28)]">
-          <img src="/images/community-group.jpg" alt="Friends from the community" class="h-full w-full object-cover" />
-        </div>
-        <div class="absolute bottom-[18px] right-0 flex items-center gap-3 rounded-[20px] bg-white px-5 py-4 shadow-[0_16px_36px_-16px_rgba(0,0,0,0.3)]">
-          <div class="flex h-11 w-11 items-center justify-center rounded-full bg-blue-tint">
-            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#1F5AA6" stroke-width="1.8"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54z"/></svg>
+        <!-- Stat badge below buttons, no longer floating on top of the image -->
+        <div class="mt-8 inline-flex items-center gap-3 rounded-[18px] border border-white/20 bg-white/10 px-5 py-3.5 backdrop-blur-sm">
+          <div class="flex h-10 w-10 items-center justify-center rounded-full bg-white/20">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="1.8"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54z"/></svg>
           </div>
           <div>
-            <div class="font-display text-xl font-extrabold text-forest-900">1,200+</div>
-            <span class="text-xs font-medium text-muted">families supported</span>
+            <div class="font-display text-xl font-extrabold text-white">1,200+</div>
+            <span class="text-xs font-medium text-white/75">families supported</span>
           </div>
         </div>
       </div>
     </div>
+
+    <!-- Mobile: image below text, fades at top and bottom edges -->
+    <div
+      class="-mt-6 h-64 w-full overflow-hidden md:hidden"
+      style="mask-image: linear-gradient(to bottom, transparent 0%, black 25%, black 72%, transparent 100%); -webkit-mask-image: linear-gradient(to bottom, transparent 0%, black 25%, black 72%, transparent 100%);"
+    >
+      <img src="/images/hero-beach-family.png" alt="A happy family together" class="h-full w-full object-cover object-top" />
+    </div>
+
     <WaveDivider fill="#fff" />
   </section>
 
@@ -305,6 +313,26 @@ const programPhotos: Record<string, string> = {
       </div>
     </section>
   )}
+
+  <!-- EVENT COUNTDOWN -->
+  <section class="bg-white px-6 py-20 md:px-10">
+    <div class="mx-auto max-w-[1240px]">
+      <div class="mb-10 text-center">
+        <span class="mb-3.5 inline-flex items-center gap-2 font-display text-xs font-semibold uppercase tracking-[0.2em] text-emerald-deep">
+          <span class="h-0.5 w-6 bg-emerald-deep"></span>Upcoming events<span class="h-0.5 w-6 bg-emerald-deep"></span>
+        </span>
+        <h2 class="font-display text-3xl font-bold tracking-tight text-forest-900 md:text-[38px]">Mark your calendar.</h2>
+        <p class="mx-auto mt-3 max-w-[520px] text-body">Join us for our biggest celebrations of the year — great food, music, and community spirit.</p>
+      </div>
+      <EventCountdown client:load />
+      <div class="mt-8 text-center">
+        <a href="/events" class="btn-lift inline-flex items-center gap-2 rounded-full bg-emerald-deep px-7 py-3.5 font-display text-sm font-bold text-white">
+          View all events
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.4"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+        </a>
+      </div>
+    </div>
+  </section>
 
   <CtaBand
     title="Be part of someone's brighter future."

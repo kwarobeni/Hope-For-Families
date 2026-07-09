@@ -15,7 +15,7 @@ const {
   title,
   description,
   topFill = '#F0F9F3',
-  primaryHref = '/donate',
+  primaryHref = 'https://checkout.justgiving.com/908482wxjj',
   primaryLabel = 'Donate now',
   secondaryHref = '/get-involved',
   secondaryLabel = 'Become a volunteer',
@@ -40,6 +40,8 @@ const {
     <div class="relative mt-7 flex flex-wrap items-center justify-center gap-3.5">
       <a
         href={primaryHref}
+        target={primaryHref.startsWith('http') ? '_blank' : undefined}
+        rel={primaryHref.startsWith('http') ? 'noopener' : undefined}
         class="btn-lift inline-flex items-center gap-2 rounded-full bg-gold px-7 py-4 font-display text-base font-bold text-forest-900"
       >
         {primaryLabel}
