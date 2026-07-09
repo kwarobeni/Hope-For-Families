@@ -26,22 +26,28 @@ jobs:
           EOF
 
       - name: Upload backend via lftp mirror
+        env:
+          FTP_USER: ${{ secrets.HOSTINGER_FTP_USERNAME }}
+          FTP_PASS: ${{ secrets.HOSTINGER_FTP_PASSWORD }}
+          FTP_HOST: ${{ secrets.HOSTINGER_FTP_SERVER }}
         run: |
-          lftp -u "${{ secrets.HOSTINGER_FTP_USERNAME }},${{ secrets.HOSTINGER_FTP_PASSWORD }}" \
-            -e "
-              set ftp:ssl-force true;
-              set ssl:verify-certificate no;
-              set net:timeout 30;
-              set net:max-retries 5;
-              set net:reconnect-interval-base 5;
-              set ftp:passive-mode true;
-              mirror --reverse --delete --verbose \
-                --exclude-glob=node_modules/ \
-                --exclude-glob=.env \
-                --exclude-glob=.env.local \
-                --exclude-glob=.env.production \
-                --exclude-glob=uploads/ \
-                backend/ backend/;
-              bye
-            " \
-            "${{ secrets.HOSTINGER_FTP_SERVER }}"
+          # Write settings to lftprc so they apply before the connection opens
+          cat > ~/.lftprc <<'EOF'
+          set ftp:ssl-force true
+          set ssl:verify-certificate no
+          set net:timeout 30
+          set net:max-retries 5
+          set net:reconnect-interval-base 5
+          set ftp:passive-mode true
+          EOF
+
+          lftp -u "$FTP_USER,$FTP_PASS" "$FTP_HOST" -e "
+            mirror --reverse --delete --verbose
+              --exclude-glob=node_modules/
+              --exclude-glob=.env
+              --exclude-glob=.env.local
+              --exclude-glob=.env.production
+              --exclude-glob=uploads/
+              backend/ backend/;
+            bye
+          "
