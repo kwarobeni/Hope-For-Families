@@ -16,65 +16,32 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
+      - name: Install lftp
+        run: sudo apt-get update -qq && sudo apt-get install -y lftp >/dev/null
+
       - name: Add deny-all .htaccess for backend folder
         run: |
-          mkdir -p backend
           cat <<'EOF' > backend/.htaccess
           Require all denied
           EOF
 
-      - name: Install lftp
-        run: sudo apt-get update -qq && sudo apt-get install -y lftp >/dev/null
-
-      - name: Ensure remote backend directory exists
+      - name: Upload backend via lftp mirror
         run: |
           lftp -u "${{ secrets.HOSTINGER_FTP_USERNAME }},${{ secrets.HOSTINGER_FTP_PASSWORD }}" \
-            -e "set ftp:ssl-force true; set ssl:verify-certificate no; mkdir -p backend; bye" \
+            -e "
+              set ftp:ssl-force true;
+              set ssl:verify-certificate no;
+              set net:timeout 30;
+              set net:max-retries 5;
+              set net:reconnect-interval-base 5;
+              set ftp:passive-mode true;
+              mirror --reverse --delete --verbose \
+                --exclude-glob=node_modules/ \
+                --exclude-glob=.env \
+                --exclude-glob=.env.local \
+                --exclude-glob=.env.production \
+                --exclude-glob=uploads/ \
+                backend/ backend/;
+              bye
+            " \
             "${{ secrets.HOSTINGER_FTP_SERVER }}"
-
-      - name: Upload backend source to Hostinger
-        id: deploy1
-        continue-on-error: true
-        uses: SamKirkland/FTP-Deploy-Action@v4.3.5
-        with:
-          server: ${{ secrets.HOSTINGER_FTP_SERVER }}
-          username: ${{ secrets.HOSTINGER_FTP_USERNAME }}
-          password: ${{ secrets.HOSTINGER_FTP_PASSWORD }}
-          protocol: ftps
-          security: loose
-          local-dir: backend/
-          server-dir: ./backend/
-          dangerous-clean-slate: true
-          exclude: |
-            **/node_modules/**
-            **/.env
-            **/.env.*
-            **/uploads/**
-
-      - name: Wait before retry
-        if: steps.deploy1.outcome == 'failure'
-        run: sleep 20
-
-      - name: Retry upload backend source to Hostinger
-        id: deploy2
-        if: steps.deploy1.outcome == 'failure'
-        uses: SamKirkland/FTP-Deploy-Action@v4.3.5
-        with:
-          server: ${{ secrets.HOSTINGER_FTP_SERVER }}
-          username: ${{ secrets.HOSTINGER_FTP_USERNAME }}
-          password: ${{ secrets.HOSTINGER_FTP_PASSWORD }}
-          protocol: ftps
-          security: loose
-          local-dir: backend/
-          server-dir: ./backend/
-          dangerous-clean-slate: true
-          exclude: |
-            **/node_modules/**
-            **/.env
-            **/.env.*
-            **/uploads/**
-
-      - name: Fail if both deploy attempts failed
-        if: steps.deploy1.outcome == 'failure' && steps.deploy2.outcome == 'failure'
-        run: exit 1
-
