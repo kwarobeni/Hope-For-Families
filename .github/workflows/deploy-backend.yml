@@ -31,11 +31,22 @@ jobs:
           FTP_PASS: ${{ secrets.HOSTINGER_FTP_PASSWORD }}
           FTP_HOST: ${{ secrets.HOSTINGER_FTP_SERVER }}
         run: |
-          printf '%s\n' \
-            'set ftp:ssl-force true' \
-            'set ssl:verify-certificate no' \
-            'set net:timeout 30' \
-            'set net:max-retries 5' \
-            'set ftp:passive-mode true' > ~/.lftprc
+          # Build lftp script file to avoid all shell-quoting issues
+          cat > /tmp/upload.lftp <<'LFTP_SETTINGS'
+          set ftp:ssl-force true
+          set ssl:verify-certificate no
+          set net:timeout 30
+          set net:max-retries 5
+          set ftp:passive-mode true
+          LFTP_SETTINGS
 
-          lftp -u "$FTP_USER,$FTP_PASS" "$FTP_HOST" -e "mirror --reverse --delete --verbose --exclude-glob node_modules/ --exclude-glob .env --exclude-glob .env.local --exclude-glob .env.production --exclude-glob uploads/ backend/ backend/; bye"
+          cat >> /tmp/upload.lftp << LFTP_CMDS
+          open -u "$FTP_USER,$FTP_PASS" "$FTP_HOST"
+          mirror --reverse --delete --verbose --exclude-glob node_modules/ --exclude-glob .env --exclude-glob .env.local --exclude-glob .env.production --exclude-glob uploads/ backend/ backend/
+          bye
+          LFTP_CMDS
+
+          echo "--- lftp script ---"
+          cat /tmp/upload.lftp
+          echo "--- running lftp ---"
+          lftp -f /tmp/upload.lftp
