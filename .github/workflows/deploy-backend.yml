@@ -32,8 +32,8 @@ jobs:
       - name: Ensure backend dir exists and reset sync state
         run: |
           lftp -u "${{ secrets.HOSTINGER_FTP_USERNAME }},${{ secrets.HOSTINGER_FTP_PASSWORD }}" \
-            -e "set ftp:ssl-force true; set ssl:verify-certificate no; set cmd:fail-exit false; mkdir -p backend; rm backend/.ftp-deploy-sync-state-backend.json; bye" \
-            "${{ secrets.HOSTINGER_FTP_SERVER }}"
+            -e "set ftp:ssl-force true; set ssl:verify-certificate no; mkdir -p backend; glob -a rm backend/.ftp-deploy-sync-state-backend.json; bye" \
+            "${{ secrets.HOSTINGER_FTP_SERVER }}" || true
 
       - name: Upload backend source to Hostinger
         id: deploy1
