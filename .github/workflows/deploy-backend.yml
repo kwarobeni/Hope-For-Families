@@ -16,10 +16,6 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      # The FTP account is chrooted to public_html, so backend source necessarily
-      # lands inside the web-served tree. Block direct HTTP access to it entirely
-      # (Hostinger's Node.js app feature reverse-proxies /api/* separately once
-      # configured; it doesn't need the raw files to be web-readable).
       - name: Add deny-all .htaccess for backend folder
         run: |
           mkdir -p backend
@@ -27,31 +23,15 @@ jobs:
           Require all denied
           EOF
 
-      # A prior run with dangerous-clean-slate deleted the remote backend/ directory
-      # itself (not just its contents) before crashing. FTP-Deploy-Action only ever
-      # creates folders *relative to* server-dir, never server-dir itself, so every
-      # run since has failed at the first MKD with "550 db: No such file or
-      # directory". Recreate it out-of-band first; mkdir -p is a no-op if it's
-      # already there, so this is safe on every future run too.
+      - name: Install lftp
+        run: sudo apt-get update -qq && sudo apt-get install -y lftp >/dev/null
+
       - name: Ensure remote backend directory exists
         run: |
-          sudo apt-get update -qq && sudo apt-get install -y lftp >/dev/null
           lftp -u "${{ secrets.HOSTINGER_FTP_USERNAME }},${{ secrets.HOSTINGER_FTP_PASSWORD }}" \
             -e "set ftp:ssl-force true; set ssl:verify-certificate no; mkdir -p backend; bye" \
             "${{ secrets.HOSTINGER_FTP_SERVER }}"
 
-      # Uploads backend source (no node_modules, no .env, uploads/ left alone on the
-      # server). Hostinger's Business plan Node.js app doesn't expose a remote way to
-      # run `npm install` or restart the process over plain FTP, so after this step
-      # finishes you still need to, in hPanel -> Advanced -> Node.js:
-      #   1. Click "Run NPM Install" on the app
-      #   2. Click "Restart"
-      # If your plan has SSH access, see backend/HOSTINGER_DEPLOY.md for a one-line
-      # SSH command to automate both from this workflow instead.
-      # Hostinger's FTPS occasionally drops the control-socket connection
-      # before any file transfer starts (a plain network blip, not a config
-      # problem). Retry once after a short cooldown rather than failing the
-      # whole deploy on a transient hiccup.
       - name: Upload backend source to Hostinger
         id: deploy1
         continue-on-error: true
@@ -64,7 +44,7 @@ jobs:
           security: loose
           local-dir: backend/
           server-dir: ./backend/
-          state-name: .ftp-deploy-sync-state-backend.json
+          dangerous-clean-slate: true
           exclude: |
             **/node_modules/**
             **/.env
@@ -87,7 +67,7 @@ jobs:
           security: loose
           local-dir: backend/
           server-dir: ./backend/
-          state-name: .ftp-deploy-sync-state-backend.json
+          dangerous-clean-slate: true
           exclude: |
             **/node_modules/**
             **/.env
@@ -97,3 +77,10 @@ jobs:
       - name: Fail if both deploy attempts failed
         if: steps.deploy1.outcome == 'failure' && steps.deploy2.outcome == 'failure'
         run: exit 1
+
+      - name: Verify upload (list remote backend directory)
+        if: steps.deploy1.outcome == 'success' || steps.deploy2.outcome == 'success'
+        run: |
+          lftp -u "${{ secrets.HOSTINGER_FTP_USERNAME }},${{ secrets.HOSTINGER_FTP_PASSWORD }}" \
+            -e "set ftp:ssl-force true; set ssl:verify-certificate no; ls backend/; bye" \
+            "${{ secrets.HOSTINGER_FTP_SERVER }}"
