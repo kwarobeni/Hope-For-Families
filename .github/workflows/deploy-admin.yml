@@ -45,6 +45,29 @@ jobs:
             RewriteCond %{REQUEST_FILENAME} !-d
             RewriteRule . /admin/index.html [L]
           </IfModule>
+
+          # Block direct HTTP access to Node.js server files
+          <FilesMatch "^(start\.js|package\.json|package-lock\.json)$">
+            Require all denied
+          </FilesMatch>
+          EOF
+
+      # Hostinger locks the Node.js app root to admin/ and won't let us change it.
+      # Copy start.js and a minimal package.json (with postinstall to install backend
+      # deps) into dist so they land at public_html/admin/ alongside the Vite build.
+      - name: Copy Node.js server files into dist
+        run: |
+          cp admin/start.js admin/dist/start.js
+          cat <<'EOF' > admin/dist/package.json
+          {
+            "name": "hope-for-families-launcher",
+            "version": "1.0.0",
+            "type": "module",
+            "scripts": {
+              "start": "node start.js",
+              "postinstall": "cd ../backend && npm install --omit=dev"
+            }
+          }
           EOF
 
       # Hostinger's FTPS occasionally drops the control-socket connection

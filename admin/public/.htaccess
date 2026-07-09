@@ -6,3 +6,8 @@
   RewriteCond %{REQUEST_FILENAME} !-d
   RewriteRule . /admin/index.html [L]
 </IfModule>
+
+# Block direct HTTP access to Node.js server files
+<FilesMatch "^(start\.js|package\.json|package-lock\.json)$">
+  Require all denied
+</FilesMatch>
