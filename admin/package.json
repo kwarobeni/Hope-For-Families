@@ -9,7 +9,7 @@
     "build:server": "vite build",
     "lint": "eslint .",
     "preview": "vite preview",
-    "postinstall": "npm install --ignore-scripts && rm -rf ./backend && cp -r ../backend ./backend && npm --prefix ./backend install --omit=dev && printf 'VITE_API_URL=https://hopeforfamiliescharity.org.uk\\n' > .env && npm run build:server",
+    "postinstall": "rm -rf ./backend && cp -r ../backend ./backend && npm --prefix ./backend install --omit=dev && printf 'VITE_API_URL=https://hopeforfamiliescharity.org.uk\\n' > .env && npm run build:server",
     "start": "node start.js"
   },
   "dependencies": {
