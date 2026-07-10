@@ -16,6 +16,12 @@ async function run() {
     connConfig.host = process.env.DB_HOST || 'localhost';
     connConfig.port = Number(process.env.DB_PORT || 3306);
   }
+  console.log('[db] user   :', process.env.DB_USER || '(not set)');
+  console.log('[db] name   :', process.env.DB_NAME || '(not set)');
+  console.log('[db] socket :', process.env.DB_SOCKET || '(not set)');
+  console.log('[db] host   :', process.env.DB_SOCKET ? '(socket mode)' : (process.env.DB_HOST || 'localhost'));
+  console.log('[db] pass?  :', !!process.env.DB_PASSWORD);
+
   const connection = await mysql.createConnection(connConfig);
 
   const dir = path.join(__dirname, 'migrations');
