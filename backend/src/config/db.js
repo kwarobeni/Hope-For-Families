@@ -15,4 +15,9 @@ const pool = mysql.createPool(
     : { ...base, host: process.env.DB_HOST || 'localhost', port: Number(process.env.DB_PORT || 3306) }
 );
 
+// Prevent pool-level errors from crashing the process
+pool.on('error', (err) => {
+  console.error('[db] Pool error (non-fatal):', err.message);
+});
+
 module.exports = pool;

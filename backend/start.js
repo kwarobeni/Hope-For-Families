@@ -1,6 +1,17 @@
 require('dotenv').config();
 const { spawnSync } = require('child_process');
 
+// Prevent unhandled rejections from crashing the server process
+process.on('uncaughtException', (err) => {
+  console.error('[server] Uncaught exception:', err.message);
+  console.error(err.stack);
+});
+process.on('unhandledRejection', (reason) => {
+  console.error('[server] Unhandled rejection:', reason instanceof Error ? reason.message : reason);
+});
+
+console.log('[server] PORT:', process.env.PORT || '(not set)');
+
 function run(label, script) {
   console.log(`\n→ ${label}...`);
   const result = spawnSync(process.execPath, [script], {
