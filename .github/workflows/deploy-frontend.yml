@@ -52,7 +52,7 @@ jobs:
           protocol: ftps
           security: loose
           local-dir: frontend/dist/
-          server-dir: ./
+          server-dir: ./frontend/
           state-name: .ftp-deploy-sync-state-frontend.json
 
       - name: Wait before retry
@@ -70,7 +70,7 @@ jobs:
           protocol: ftps
           security: loose
           local-dir: frontend/dist/
-          server-dir: ./
+          server-dir: ./frontend/
           state-name: .ftp-deploy-sync-state-frontend.json
 
       - name: Fail if both deploy attempts failed

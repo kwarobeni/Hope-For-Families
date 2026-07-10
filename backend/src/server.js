@@ -46,16 +46,26 @@ app.use('/api/webhooks', webhookRoutes);
 app.use('/api/uploads', uploadRoutes);
 app.use('/api/contact', contactRoutes);
 
-// Serve the Astro static frontend when FRONTEND_DIST is set
-const frontendDist = process.env.FRONTEND_DIST;
-if (frontendDist && fs.existsSync(frontendDist)) {
+// Serve the admin Vite SPA at /admin/
+// On Hostinger the Vite build lands at nodejs/dist/ (two levels up from this file)
+const adminDist = process.env.ADMIN_DIST || path.join(__dirname, '..', '..', 'dist');
+if (fs.existsSync(adminDist)) {
+  app.use('/admin', express.static(adminDist));
+  app.get('/admin/*', (req, res) => res.sendFile(path.join(adminDist, 'index.html')));
+}
+
+// Serve the Astro static frontend
+// Falls back to ../../../public_html/frontend relative to nodejs/backend/src/
+const frontendDist = process.env.FRONTEND_DIST ||
+  path.join(__dirname, '..', '..', '..', 'public_html', 'frontend');
+if (fs.existsSync(frontendDist)) {
   app.use(express.static(frontendDist));
   app.get('*', (req, res) => {
     const html = path.join(frontendDist, '404.html');
     res.status(404).sendFile(fs.existsSync(html) ? html : path.join(frontendDist, 'index.html'));
   });
 } else {
-  app.use((req, res) => res.status(404).json({ error: 'Not found' }));
+  app.use((req, res) => res.status(404).json({ error: 'Not found', frontendDist }));
 }
 
 // eslint-disable-next-line no-unused-vars
