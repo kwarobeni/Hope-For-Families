@@ -47,8 +47,9 @@ app.use('/api/uploads', uploadRoutes);
 app.use('/api/contact', contactRoutes);
 
 // Serve the admin Vite SPA at /admin/
-// On Hostinger the Vite build lands at nodejs/dist/ (two levels up from this file)
-const adminDist = process.env.ADMIN_DIST || path.join(__dirname, '..', '..', 'dist');
+// Built by GitHub Actions and FTP-deployed to public_html/admin_dist/
+const adminDist = process.env.ADMIN_DIST ||
+  path.join(__dirname, '..', '..', '..', 'public_html', 'admin_dist');
 if (fs.existsSync(adminDist)) {
   app.use('/admin', express.static(adminDist));
   app.get('/admin/*', (req, res) => res.sendFile(path.join(adminDist, 'index.html')));

@@ -1,5 +1,4 @@
 name: Deploy admin
-# full redeploy 2026-07-10
 
 on:
   push:
@@ -12,8 +11,6 @@ on:
 jobs:
   deploy:
     runs-on: ubuntu-latest
-    env:
-      ACTIONS_ALLOW_USE_UNSECURE_NODE_VERSION: true
     steps:
       - uses: actions/checkout@v4
 
@@ -35,47 +32,7 @@ jobs:
         working-directory: admin
         run: npm run build
 
-      - name: Add SPA fallback rewrite rule
-        run: |
-          cat <<'EOF' > admin/dist/.htaccess
-          <IfModule mod_rewrite.c>
-            RewriteEngine On
-            RewriteBase /admin/
-            RewriteRule ^index\.html$ - [L]
-            RewriteCond %{REQUEST_FILENAME} !-f
-            RewriteCond %{REQUEST_FILENAME} !-d
-            RewriteRule . /admin/index.html [L]
-          </IfModule>
-
-          # Block direct HTTP access to Node.js server files
-          <FilesMatch "^(start\.js|package\.json|package-lock\.json)$">
-            Require all denied
-          </FilesMatch>
-          EOF
-
-      # Hostinger locks the Node.js app root to admin/ and won't let us change it.
-      # Copy start.js and a minimal package.json (with postinstall to install backend
-      # deps) into dist so they land at public_html/admin/ alongside the Vite build.
-      - name: Copy Node.js server files into dist
-        run: |
-          cp admin/start.js admin/dist/start.js
-          cat <<'EOF' > admin/dist/package.json
-          {
-            "name": "hope-for-families-launcher",
-            "version": "1.0.0",
-            "type": "module",
-            "scripts": {
-              "start": "node start.js",
-              "postinstall": "cd ../backend && npm install --omit=dev"
-            }
-          }
-          EOF
-
-      # Hostinger's FTPS occasionally drops the control-socket connection
-      # before any file transfer starts (a plain network blip, not a config
-      # problem). Retry once after a short cooldown rather than failing the
-      # whole deploy on a transient hiccup.
-      - name: Deploy to Hostinger (public_html/admin)
+      - name: Deploy built SPA to Hostinger (public_html/admin_dist)
         id: deploy1
         continue-on-error: true
         uses: SamKirkland/FTP-Deploy-Action@v4.3.5
@@ -86,18 +43,15 @@ jobs:
           protocol: ftps
           security: loose
           local-dir: admin/dist/
-          server-dir: ./admin/
+          server-dir: ./admin_dist/
           state-name: .ftp-deploy-sync-state-admin.json
-          # A previous run left an incomplete sync (some files uploaded, others
-          # missing). dangerous-clean-slate forces a full wipe-and-reupload of
-          # this isolated subfolder so the server state matches the build exactly.
           dangerous-clean-slate: true
 
       - name: Wait before retry
         if: steps.deploy1.outcome == 'failure'
         run: sleep 20
 
-      - name: Retry deploy to Hostinger
+      - name: Retry deploy
         id: deploy2
         if: steps.deploy1.outcome == 'failure'
         uses: SamKirkland/FTP-Deploy-Action@v4.3.5
@@ -108,10 +62,10 @@ jobs:
           protocol: ftps
           security: loose
           local-dir: admin/dist/
-          server-dir: ./admin/
+          server-dir: ./admin_dist/
           state-name: .ftp-deploy-sync-state-admin.json
           dangerous-clean-slate: true
 
-      - name: Fail if both deploy attempts failed
+      - name: Fail if both attempts failed
         if: steps.deploy1.outcome == 'failure' && steps.deploy2.outcome == 'failure'
         run: exit 1
