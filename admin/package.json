@@ -8,7 +8,7 @@
     "build": "tsc -b && vite build",
     "lint": "eslint .",
     "preview": "vite preview",
-    "postinstall": "cd ../backend && npm install --omit=dev",
+    "postinstall": "rm -rf ./backend && cp -r ../backend ./backend && npm --prefix ./backend install --omit=dev",
     "start": "node start.js"
   },
   "dependencies": {
