@@ -4,14 +4,19 @@ const path = require('path');
 const mysql = require('mysql2/promise');
 
 async function run() {
-  const connection = await mysql.createConnection({
-    host: process.env.DB_HOST,
-    port: Number(process.env.DB_PORT || 3306),
+  const connConfig = {
     user: process.env.DB_USER,
     password: process.env.DB_PASSWORD,
     database: process.env.DB_NAME,
     multipleStatements: true,
-  });
+  };
+  if (process.env.DB_SOCKET) {
+    connConfig.socketPath = process.env.DB_SOCKET;
+  } else {
+    connConfig.host = process.env.DB_HOST || 'localhost';
+    connConfig.port = Number(process.env.DB_PORT || 3306);
+  }
+  const connection = await mysql.createConnection(connConfig);
 
   const dir = path.join(__dirname, 'migrations');
   const files = fs.readdirSync(dir).filter((f) => f.endsWith('.sql')).sort();

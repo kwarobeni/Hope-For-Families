@@ -21,6 +21,17 @@ for (const c of candidates) {
   console.log('[startup]', existsSync(c) ? '✓' : '✗', c);
 }
 
+// Log which MySQL socket paths exist so we can configure DB_SOCKET
+const socketPaths = [
+  '/var/run/mysqld/mysqld.sock',
+  '/var/lib/mysql/mysql.sock',
+  '/tmp/mysql.sock',
+  '/tmp/mysqld.sock',
+];
+for (const s of socketPaths) {
+  console.log('[socket]', existsSync(s) ? '✓' : '✗', s);
+}
+
 const backendDir = candidates.find(existsSync);
 
 if (!backendDir) {
