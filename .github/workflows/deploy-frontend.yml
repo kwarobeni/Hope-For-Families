@@ -31,7 +31,7 @@ jobs:
           PUBLIC_API_URL: https://hopeforfamiliescharity.org.uk/api
 
       - name: Package dist
-        run: tar -czf /tmp/frontend-dist.tar.gz -C frontend/dist .
+        run: tar -czf frontend-dist.tar.gz -C frontend/dist .
 
       - name: Copy tarball to server
         uses: appleboy/scp-action@v0.1.7
@@ -40,9 +40,8 @@ jobs:
           port: ${{ secrets.SSH_PORT }}
           username: ${{ secrets.SSH_USER }}
           password: ${{ secrets.SSH_PASS }}
-          source: "/tmp/frontend-dist.tar.gz"
+          source: "frontend-dist.tar.gz"
           target: "/tmp/"
-          strip_components: 2
 
       - name: Extract on server
         uses: appleboy/ssh-action@v1.0.3
