@@ -20,6 +20,7 @@ const settingsRoutes = require('./routes/settings');
 const webhookRoutes = require('./routes/webhooks');
 const uploadRoutes = require('./routes/uploads');
 const contactRoutes = require('./routes/contact');
+const adminRoutes = require('./routes/admin');
 
 const app = express();
 
@@ -45,6 +46,7 @@ app.use('/api/settings', settingsRoutes);
 app.use('/api/webhooks', webhookRoutes);
 app.use('/api/uploads', uploadRoutes);
 app.use('/api/contact', contactRoutes);
+app.use('/api/admin', adminRoutes);
 
 // Serve the admin Vite SPA at /admin/
 // Built by GitHub Actions and FTP-deployed to public_html/admin_dist/

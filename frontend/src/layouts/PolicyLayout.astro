@@ -1,0 +1,74 @@
+---
+import Layout from './Layout.astro';
+
+interface Props {
+  title: string;
+  description?: string;
+  lastReviewed?: string;
+}
+const { title, description, lastReviewed = 'July 2025' } = Astro.props;
+---
+
+<Layout title={title} description={description ?? title + ' — Hope For Families'}>
+  <div class="border-b border-border-soft bg-mint px-6 py-12 md:px-10">
+    <div class="mx-auto max-w-[760px]">
+      <a href="/resources" class="mb-5 inline-flex items-center gap-1.5 text-sm font-semibold text-emerald-deep hover:underline">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3"><path d="M19 12H5M12 5l-7 7 7 7"/></svg>
+        Resources &amp; Policies
+      </a>
+      <h1 class="font-display text-3xl font-bold tracking-tight text-forest-900 md:text-[40px]">{title}</h1>
+      <p class="mt-2 text-sm text-muted">Hope For Families &middot; SC053715 &middot; Last reviewed: {lastReviewed}</p>
+    </div>
+  </div>
+
+  <div class="bg-white px-6 pb-20 pt-10 md:px-10">
+    <div class="mx-auto max-w-[760px] policy-body">
+      <slot />
+    </div>
+  </div>
+</Layout>
+
+<style>
+  .policy-body :global(h2) {
+    font-family: var(--font-display, sans-serif);
+    font-size: 1.2rem;
+    font-weight: 700;
+    color: var(--color-forest-900, #14311f);
+    margin-top: 2.5rem;
+    margin-bottom: 0.6rem;
+    padding-bottom: 0.4rem;
+    border-bottom: 1px solid #e5ede9;
+  }
+  .policy-body :global(h3) {
+    font-family: var(--font-display, sans-serif);
+    font-size: 1rem;
+    font-weight: 700;
+    color: var(--color-forest-900, #14311f);
+    margin-top: 1.5rem;
+    margin-bottom: 0.4rem;
+  }
+  .policy-body :global(p) {
+    color: #3d5445;
+    line-height: 1.75;
+    margin-bottom: 1rem;
+  }
+  .policy-body :global(ul), .policy-body :global(ol) {
+    padding-left: 1.4rem;
+    margin-bottom: 1rem;
+    color: #3d5445;
+    line-height: 1.75;
+  }
+  .policy-body :global(ul) { list-style-type: disc; }
+  .policy-body :global(ol) { list-style-type: decimal; }
+  .policy-body :global(li) { margin-bottom: 0.35rem; }
+  .policy-body :global(strong) { font-weight: 600; color: #14311f; }
+  .policy-body :global(a) { color: #1F7A4D; text-decoration: underline; }
+  .policy-body :global(a:hover) { color: #14543A; }
+  .policy-body :global(.callout) {
+    background: #f0faf4;
+    border-left: 3px solid #3FAE68;
+    border-radius: 0 10px 10px 0;
+    padding: 1rem 1.2rem;
+    margin-bottom: 1.2rem;
+  }
+</style>
